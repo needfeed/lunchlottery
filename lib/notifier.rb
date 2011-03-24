@@ -1,6 +1,8 @@
 class Notifier
+  MONDAY = 1
+
   def self.send_reminders
-    return if Date.today.wday != 1
+    return unless Date.today.wday == MONDAY || Date.today == Date.parse("2011-03-23")
 
     people = YAML.load_file("#{Rails.root}/config/people.yml")
     people.shuffle!
