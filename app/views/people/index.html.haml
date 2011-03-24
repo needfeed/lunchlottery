@@ -2,13 +2,18 @@
 
 %h1 Lunch Lottery
 
-%p <b>#{@people_count} people</b> are going to lunch with a random group <b>every Tuesday.</b>
-
-%p Sign up below! We'll email your group of 4 on Monday night.
+%p <b>#{@people_count} people</b> are going to lunch with a random small group <b>every Tuesday.</b>
 
 - unless @person.errors.empty?
-  .errors
+  %p.errors
     = @person.errors.full_messages
+
+- if flash[:message]
+  %p.flash
+    = flash[:message]
+
+- if @person.errors.empty? && !flash[:message]
+  %p Sign up below! We'll email you on Monday night.
 
 = form_for @person do |f|
   = f.label :email, "Email:"
