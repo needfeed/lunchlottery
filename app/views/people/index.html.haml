@@ -1,11 +1,13 @@
+= image_tag "lottery.jpg"
+
 %h1 Lunch Lottery
 
-%p <b>#{@people_count} people</b> signed up here to lunch with a random group <b>every Tuesday.</b>
+%p <b>#{@people_count} people</b> are going to lunch with a random group <b>every Tuesday.</b>
 
-%p Sign up below! We'll match you with a group of 4 on Monday night.
+%p Sign up below! We'll email your group of 4 on Monday night.
 
 - form_for Person.new do |f|
-  = f.label :email
+  = f.label :email, "Email:"
   = f.text_field :email
 
-  = f.submit "sign me up!"
+  = f.submit "Sign me up!"
