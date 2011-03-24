@@ -89,7 +89,7 @@ describe Notifier do
 
     context "when it's not Monday" do
       before do
-        wednesday = Date.parse("2011-03-23")
+        wednesday = Date.parse("2011-03-30")
         Date.stub(:today) { wednesday }
       end
 
