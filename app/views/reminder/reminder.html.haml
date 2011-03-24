@@ -1,1 +1,7 @@
-Hello
+%p Hello!
+
+%p You are all going to lunch together tomorrow:
+
+%ul
+  - @addresses.each do |address|
+    %li= address

@@ -1,6 +1,6 @@
 class Reminder < ActionMailer::Base
-  def reminder(address)
-    subject "Your lunch tomorrow"
-    recipients address
+  def reminder(addresses)
+    @addresses = addresses
+    mail(:to =>addresses, :subject => "Your lunch tomorrow")
   end
 end
