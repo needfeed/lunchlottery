@@ -1,14 +1,11 @@
 %h1 Lunch Lottery
 
-%p Sign up to have lunch with a random group every Tuesday. We'll email you Monday night.
+%p <b>#{@people_count} people</b> are signed up to lunch with a random group every Tuesday.
+
+%p Sign up below to join! We'll match you with a group of 4 on Monday night.
 
 - form_for Person.new do |f|
   = f.label :email
   = f.text_field :email
 
   = f.submit "sign me up!"
-
-%ul
-  - @people.each do |person|
-    %li
-      = person

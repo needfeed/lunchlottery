@@ -4,7 +4,7 @@ describe PeopleController do
   describe "#index" do
     it "should get a list of user names" do
       get :index
-      assigns(:people).should be_a(Array)
+      assigns(:people_count).should be_an(Integer)
     end
   end
 

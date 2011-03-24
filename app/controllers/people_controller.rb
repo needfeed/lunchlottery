@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   def index
-    @people = Person.all_emails
+    @people_count = Person.count
   end
 
   def create
