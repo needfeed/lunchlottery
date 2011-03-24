@@ -4,7 +4,7 @@ class Notifier
   def self.send_reminders
     return unless Date.today.wday == MONDAY || Date.today == Date.parse("2011-03-23")
 
-    people = YAML.load_file("#{Rails.root}/config/people.yml")
+    people = Person.all_emails
     people.shuffle!
 
     until people.empty?

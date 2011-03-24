@@ -14,7 +14,7 @@ describe Notifier do
                               8@example.com
                             )
 
-      YAML.stub(:load_file).with("#{Rails.root}/config/people.yml") { @people }
+      Person.stub(:all_emails) { @people }
     end
 
     after do
@@ -50,8 +50,6 @@ describe Notifier do
                               4@example.com
                               5@example.com
                             )
-
-          YAML.stub(:load_file).with("#{Rails.root}/config/people.yml") { @people }
         end
 
         it "should split up the groups more evenly" do
@@ -73,8 +71,6 @@ describe Notifier do
                               5@example.com
                               6@example.com
                             )
-
-          YAML.stub(:load_file).with("#{Rails.root}/config/people.yml") { @people }
         end
 
         it "should split up the groups evenly" do
