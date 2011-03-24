@@ -16,5 +16,16 @@ describe PeopleController do
 
       response.should redirect_to(root_path)
     end
+    
+    it "should render the form if there's a validation error" do
+      lambda do
+        post :create, :person => {:email => "me"}
+      end.should_not change{Person.count}
+      
+      assigns(:people_count).should be_an(Integer)
+      response.should be_success
+      response.should render_template("people/index")
+      response.body.should =~ /not valid/
+    end
   end
 end

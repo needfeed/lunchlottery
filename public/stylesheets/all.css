@@ -11,3 +11,12 @@ h1 {
   color: darkblue;
   margin: 40px 0 0 0;
 }
+
+.field_with_errors {
+  display: inline;
+}
+
+.errors {
+  color: red;
+  margin-bottom: 10px;
+}

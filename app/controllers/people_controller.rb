@@ -1,10 +1,16 @@
 class PeopleController < ApplicationController
   def index
+    @person = Person.new
     @people_count = Person.count
   end
 
   def create
-    Person.create!(params[:person])
-    redirect_to root_path
+    @person = Person.new(params[:person])
+    if @person.save
+      redirect_to root_path
+    else
+      @people_count = Person.count
+      render :template => "people/index"
+    end
   end
 end

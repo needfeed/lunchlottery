@@ -6,7 +6,11 @@
 
 %p Sign up below! We'll email your group of 4 on Monday night.
 
-- form_for Person.new do |f|
+- unless @person.errors.empty?
+  .errors
+    = @person.errors.full_messages
+
+= form_for @person do |f|
   = f.label :email, "Email:"
   = f.text_field :email
 
