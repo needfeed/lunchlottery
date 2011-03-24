@@ -29,7 +29,6 @@ describe Notifier do
       end
 
       it "should send 2 emails to 8 people, in groups of 4" do
-
         Notifier.send_reminders
 
         ActionMailer::Base.deliveries.length.should == 2
@@ -40,6 +39,51 @@ describe Notifier do
       it "should shuffle the people" do
         @people.should_receive(:shuffle!)
         Notifier.send_reminders
+      end
+
+      context "when one person would dine alone" do
+        before do
+          @people = %w(
+                              1@example.com
+                              2@example.com
+                              3@example.com
+                              4@example.com
+                              5@example.com
+                            )
+
+          YAML.stub(:load_file).with("#{Rails.root}/config/people.yml") { @people }
+        end
+
+        it "should split up the groups more evenly" do
+          Notifier.send_reminders
+
+          ActionMailer::Base.deliveries.length.should == 2
+          ActionMailer::Base.deliveries[0].to.length.should == 3
+          ActionMailer::Base.deliveries[1].to.length.should == 2
+        end
+      end
+
+      context "when two people would dine alone" do
+        before do
+          @people = %w(
+                              1@example.com
+                              2@example.com
+                              3@example.com
+                              4@example.com
+                              5@example.com
+                              6@example.com
+                            )
+
+          YAML.stub(:load_file).with("#{Rails.root}/config/people.yml") { @people }
+        end
+
+        it "should split up the groups evenly" do
+          Notifier.send_reminders
+
+          ActionMailer::Base.deliveries.length.should == 2
+          ActionMailer::Base.deliveries[0].to.length.should == 3
+          ActionMailer::Base.deliveries[1].to.length.should == 3
+        end
       end
     end
 

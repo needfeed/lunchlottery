@@ -6,7 +6,10 @@ class Notifier
     people.shuffle!
 
     until people.empty?
-      Reminder.reminder(people.slice!(0, 4)).deliver
+      group_size = 4
+      group_size = 3 if people.length == 5 || people.length == 6
+      group = people.slice!(0, group_size)
+      Reminder.reminder(group).deliver
     end
   end
 end
