@@ -1,10 +1,12 @@
 %h1 Lunch Lottery
 
--form_for Person.new do |f|
-  =f.label :email
-  =f.text_field :email
+%p Sign up to have lunch with a random group every Tuesday. We'll email you Monday night.
 
-  =f.submit "sign me up!"
+- form_for Person.new do |f|
+  = f.label :email
+  = f.text_field :email
+
+  = f.submit "sign me up!"
 
 %ul
   - @people.each do |person|
