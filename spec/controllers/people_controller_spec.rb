@@ -5,6 +5,7 @@ describe PeopleController do
     it "should get a list of user names" do
       get :index
       assigns(:people_count).should be_an(Integer)
+      response.body.should =~ /Zero people/
     end
   end
 

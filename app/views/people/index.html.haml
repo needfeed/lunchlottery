@@ -2,7 +2,7 @@
 
 %h1 Lunch Lottery
 
-%p <b>#{@people_count} people</b> are going to lunch with a random small group <b>every Tuesday.</b>
+%p <b>#{Linguistics::EN.numwords(@people_count).titlecase} people</b> are going to lunch with a random small group <b>every Tuesday.</b>
 
 - unless @person.errors.empty?
   %p.errors
