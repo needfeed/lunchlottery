@@ -9,7 +9,7 @@ describe Reminder do
     message = ActionMailer::Base.deliveries.first
     message.subject.should =~ /Your lunch tomorrow/
     message.to.should == ["one@example.com", "two@example.com"]
-    message.sender.should == "dine@lunchlottery.com"
+    message.from.should == ["dine@lunchlottery.com"]
     message.body.to_s.should =~ /Hello/
     message.body.to_s.should =~ /one@example\.com/
     message.body.to_s.should =~ /two@example\.com/

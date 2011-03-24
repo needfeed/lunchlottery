@@ -3,6 +3,6 @@ class Reminder < ActionMailer::Base
     @addresses = addresses
     mail(:to =>addresses,
          :subject => "Your lunch tomorrow",
-         :sender => "dine@lunchlottery.com")
+         :from => "dine@lunchlottery.com")
   end
 end
