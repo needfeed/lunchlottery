@@ -2,17 +2,9 @@ require 'spec_helper'
 
 describe Notifier do
   describe ".send_reminders" do
-    def example_emails(count)
-      (1..count).map { |i| "#{i}@example.com" }
-    end
-    
     before do
       @people = example_emails(8)
       Person.stub(:all_emails) { @people }
-    end
-
-    after do
-      ActionMailer::Base.deliveries = []
     end
 
     context "when it's Monday" do
@@ -68,4 +60,8 @@ describe Notifier do
       end
     end
   end
+
+  def example_emails(count)
+    (1..count).map { |i| "#{i}@example.com" }
+  end  
 end
