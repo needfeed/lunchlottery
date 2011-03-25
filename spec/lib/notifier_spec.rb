@@ -2,18 +2,12 @@ require 'spec_helper'
 
 describe Notifier do
   describe ".send_reminders" do
+    def example_emails(count)
+      (1..count).map { |i| "#{i}@example.com" }
+    end
+    
     before do
-      @people = %w(
-                              1@example.com
-                              2@example.com
-                              3@example.com
-                              4@example.com
-                              5@example.com
-                              6@example.com
-                              7@example.com
-                              8@example.com
-                            )
-
+      @people = example_emails(8)
       Person.stub(:all_emails) { @people }
     end
 
