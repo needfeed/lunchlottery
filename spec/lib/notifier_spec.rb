@@ -81,6 +81,27 @@ describe Notifier do
           ActionMailer::Base.deliveries[1].to.length.should == 3
         end
       end
+
+      context "when nine people are present" do
+        before do
+          @people = %w(
+                              1@example.com
+                              2@example.com
+                              3@example.com
+                              4@example.com
+                              5@example.com
+                              6@example.com
+                              7@example.com
+                              8@example.com
+                              9@example.com
+                            )
+        end
+
+        it "should split into 3 groups of 3" do
+          Notifier.send_reminders
+          ActionMailer::Base.deliveries.collect { |message| message.to.length }.should == [3, 3, 3]
+        end
+      end
     end
 
     context "when it's not Monday" do

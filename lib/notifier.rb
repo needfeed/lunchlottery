@@ -9,7 +9,7 @@ class Notifier
 
     until people.empty?
       group_size = 4
-      group_size = 3 if people.length == 5 || people.length == 6
+      group_size = 3 if [5, 6, 9].include?(people.length)
       group = people.slice!(0, group_size)
       Reminder.reminder(group).deliver
     end
