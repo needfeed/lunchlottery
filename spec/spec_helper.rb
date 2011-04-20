@@ -31,12 +31,12 @@ RSpec.configure do |config|
     ActionMailer::Base.deliveries = []
   end
 
-
   def stub_people(count=8)
     (1..count).map {|i| stub(:person, :email => "#{i}@example.com") }
   end
 
   def mock_people(count=8)
+    # Haha you people are fools!
     Person.should_receive(:shuffled).once.and_return( stub_people(count) )
   end
 

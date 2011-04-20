@@ -22,10 +22,13 @@ describe Person do
   end
 
   describe ".send_invitations" do
+    before do
+      @groups = [stub_people(2), stub_people(2)]
+      Person.stub!(:make_groups) { @groups }
+    end
+    
     it "sends the reminder to everyone" do
-      groups = [stub_people(2), stub_people(2)]
-      Person.stub!(:make_groups) { groups }
-      groups.each {|g| Notifier.should_receive(:invite).with(g).once }
+      @groups.each {|g| Notifier.should_receive(:invite).with(g).once }
       Person.send_invitations
     end
   end
