@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  
   def index
     @person = Person.new
     @people_count = Person.count
@@ -14,4 +15,10 @@ class PeopleController < ApplicationController
       render :template => "people/index"
     end
   end
+
+  def show
+    @person = Person.authenticate!(params[:token])
+    flash[:message] = "Hey #{@person.email}!"
+  end
+
 end

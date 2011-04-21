@@ -30,4 +30,21 @@ describe PeopleController do
       response.body.should =~ /not valid/
     end
   end
+
+  describe "#show" do
+    context "with a valid token" do
+      let(:person) { Person.create!(:email => "foo@example.com") }
+      before { get :show, :token => person.authentication_token }
+      it { assigns(:person).should be_present }
+      it { response.should be_success }
+      it { should render_template("people/show") }
+    end
+
+    context "with an invalid token" do
+      before { get :show, :token => "this_is_a_nonexistant_token" }
+      it { assigns(:person).should_not be_present }
+      it { should render_template("application/error") }
+      it { flash[:error].should match(/i couldn't find/i) }
+    end
+  end
 end

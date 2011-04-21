@@ -1,4 +1,11 @@
 class Person < ActiveRecord::Base
+
+  class TokenNotFound < RuntimeError
+    def message
+      "I couldn't find that token..."
+    end
+  end
+
   validates :email, :email => true
   validates_uniqueness_of :email
 
@@ -28,7 +35,7 @@ class Person < ActiveRecord::Base
   end
 
   def self.authenticate!(token)
-    Person.where({ :authentication_token => token}).first or raise "InvalidToken"
+    Person.where({ :authentication_token => token}).first or raise TokenNotFound
   end
 
   protected
