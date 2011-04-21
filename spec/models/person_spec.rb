@@ -62,4 +62,34 @@ describe Person do
     end
   end
 
+  describe "#authentication_token" do
+    let(:user) { Person.create!(:email => "foo@example.com") }
+
+    it "generates a uuid for the user" do
+      user.authentication_token.should be_present
+    end
+
+    it "persists the token" do
+      token = user.authentication_token
+      Person.find_by_id(user.id).authentication_token.should == token
+    end
+  end
+
+  describe ".authenticate!" do
+    let(:user) { Person.create!(:email => "foo@example.com") }
+
+    context "with a valid token" do
+      it "returns the user" do
+        Person.authenticate!(user.authentication_token).should == user
+      end
+    end
+    context "with an invalid token" do
+      it "throws an authentication failed error" do
+        expect {
+          Person.authenticate!("DEADBEEF")
+        }.to raise_error
+      end
+    end
+  end
+
 end
