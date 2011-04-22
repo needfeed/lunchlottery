@@ -16,9 +16,14 @@ class PeopleController < ApplicationController
     end
   end
 
-  def show
+  def edit
     @person = Person.authenticate!(params[:token])
     flash[:message] = "Hey #{@person.email}!"
+  end
+
+  def update
+    @person = Person.authenticate!(params[:token])
+    render :action => :edit
   end
 
 end

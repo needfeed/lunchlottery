@@ -31,17 +31,20 @@ describe PeopleController do
     end
   end
 
-  describe "#show" do
+  describe "#edit" do
     context "with a valid token" do
       let(:person) { Person.create!(:email => "foo@example.com") }
-      before { get :show, :token => person.authentication_token }
+      before { get :edit, :token => person.authentication_token }
       it { assigns(:person).should be_present }
       it { response.should be_success }
-      it { should render_template("people/show") }
+      it { should render_template("people/edit") }
+      it "renders a form for the update" do
+        response.should have_selector("form[action='#{person_token_path(person.authentication_token)}']")
+      end
     end
 
     context "with an invalid token" do
-      before { get :show, :token => "this_is_a_nonexistant_token" }
+      before { get :edit, :token => "this_is_a_nonexistant_token" }
       it { assigns(:person).should_not be_present }
       it { should render_template("application/error") }
       it { flash[:error].should match(/i couldn't find/i) }

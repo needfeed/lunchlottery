@@ -16,17 +16,14 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   config.mock_with :rspec
+  config.include Webrat::Matchers, :type => :view
 
-  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  config.use_transactional_fixtures = true
+  config.use_instantiated_fixtures  = false
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  
+  config.global_fixtures = :all
   config.render_views
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
-  
   config.before do
     ActionMailer::Base.deliveries = []
   end
@@ -35,8 +32,8 @@ RSpec.configure do |config|
     (1..count).map {|i| stub(:person, :email => "#{i}@example.com") }
   end
 
+  # Haha people are fools!
   def mock_people(count=8)
-    # Haha you people are fools!
     Person.should_receive(:shuffled).once.and_return( stub_people(count) )
   end
 

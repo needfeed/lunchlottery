@@ -1,0 +1,12 @@
+= image_tag "lottery.jpg"
+
+%h1
+  Welcome back
+  = @person.email
+
+= form_for @person,
+  :url => person_token_path(@person.authentication_token),
+  :html => {:style => "display:none;"} do |f|
+  = f.label :opt_in
+  = f.check_box :opt_in
+  = f.submit

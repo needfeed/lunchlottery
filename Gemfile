@@ -32,4 +32,5 @@ gem 'linguistics'
 group :development, :test do
   gem 'rspec-rails'
   gem 'heroku'
+  gem 'webrat'
 end
