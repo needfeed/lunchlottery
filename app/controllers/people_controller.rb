@@ -23,7 +23,13 @@ class PeopleController < ApplicationController
 
   def update
     @person = Person.authenticate!(params[:token])
-    render :action => :edit
+    if @person.update_attributes(params[:person])
+      flash[:notice] = "Your settings have been updated."
+    else
+      flash[:error] = "I had a problem saving that."
+    end
+
+    redirect_to person_token_path(@person.authentication_token)
   end
 
 end

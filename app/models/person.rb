@@ -9,8 +9,6 @@ class Person < ActiveRecord::Base
   validates :email, :email => true
   validates_uniqueness_of :email
 
-  attr_accessor :opt_in
-
   before_create :generate_authentication_token
 
   def self.shuffled
