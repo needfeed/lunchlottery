@@ -22,12 +22,15 @@ describe Person do
   end
 
   describe ".send_invitations" do
-    before do
-      @groups = [stub_people(2), stub_people(2)]
-      Person.stub!(:make_groups) { @groups }
+    it "only invites opted in people" do
+      Person.should_receive(:opted_in).once.and_return(Person.scoped)
+      Person.send_invitations
     end
-    
-    it "sends the reminder to everyone" do
+
+    it "invites the grouped people" do
+      @groups = [stub_people(2), stub_people(2)]
+      Person.stub!(:make_groups).and_return(@groups)
+      
       @groups.each {|g| Notifier.should_receive(:invite).with(g).once }
       Person.send_invitations
     end

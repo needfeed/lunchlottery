@@ -20,7 +20,7 @@ describe Notifier do
 
   describe ".remind" do
     before do
-      @person = Person.new(:email => "e@mail.com")
+      @person = Person.create!(:email => "foo@example.com")
       Notifier.remind(@person).deliver
     end
     

@@ -10,13 +10,15 @@ class Person < ActiveRecord::Base
   validates_uniqueness_of :email
 
   before_create :generate_authentication_token
+  
+  scope :opted_in, where(:opt_in => true)
 
   def self.shuffled
     Person.all.shuffle
   end
 
   def self.send_invitations
-    make_groups.each{|g| Notifier.invite(g) }
+    opted_in.make_groups.each{|g| Notifier.invite(g) }
   end
 
   def self.send_reminders
