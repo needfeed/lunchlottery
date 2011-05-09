@@ -31,44 +31,33 @@ describe PeopleController do
     end
   end
 
-  describe "#edit" do
-    context "with a valid token" do
-      let(:person) { Person.create!(:email => "foo@example.com") }
-      before { get :edit, :token => person.authentication_token }
+  describe "#update" do
+    let(:person) { Person.create!(:email => "foo@example.com") }
+
+    context "with a valid token, setting false" do
+      before { get :update, :token => person.authentication_token, :person => {:opt_in => "false" } }
+      
       it { assigns(:person).should be_present }
       it { response.should be_success }
       it { should render_template("people/edit") }
-      it "renders a form for the update" do
-        response.should have_selector("form[action='#{person_token_path(person.authentication_token)}']")
-      end
-    end
-
-    context "with an invalid token" do
-      before { get :edit, :token => "this_is_a_nonexistant_token" }
-      it { assigns(:person).should_not be_present }
-      it { should render_template("application/error") }
-      it { flash[:error].should match(/i couldn't find/i) }
-    end
-  end
-
-  describe "#update" do
-    let(:person) {  Person.create!(:email => "foo@example.com", :opt_in => true) }
-
-    context "setting false" do
-      before { put :update, :token => person.authentication_token, :person => {:opt_in => "false" } }
-      it { assigns(:person).should be_present }
-      it { response.should redirect_to "/people/#{person.authentication_token}" }
       it { flash[:notice].should match(/updated/) }
+      
       it "persists the opt in param" do
         Person.find_by_id(person.id).should_not be_opt_in
       end
+      
+      it "renders a form for further updating update" do
+        response.should have_selector("form", :action => person_token_path(person.authentication_token),
+                                              :method => 'get')
+      end
     end
-
+    
     context "with an invalid token" do
-      before { put :update, :token => "this_is_a_nonexistant_token" }
+      before { get :update, :token => "this_is_a_nonexistant_token" }
       it { assigns(:person).should_not be_present }
       it { should render_template("application/error") }
       it { flash[:error].should match(/i couldn't find/i) }
     end
   end
+
 end

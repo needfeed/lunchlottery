@@ -1,1 +1,10 @@
 %p Hello from lunchlottery.com!
+
+%p Are you interested in going to lunch with some fun people on Tuesday?
+
+%ul
+  %li Yes!  Ok, great.  You'll get an email tomorrow with your new lunch mates.
+  %li
+    Nope, I'm busy.  Ok, click
+    = link_to "this link", person_token_path(@person.authentication_token, :person => { :opt_in => false })
+    and you'll have opted out.

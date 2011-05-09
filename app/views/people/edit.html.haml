@@ -5,7 +5,8 @@
   = @person.email
 
 = form_for @person,
-  :url => person_token_path(@person.authentication_token) do |f|
+  :url => person_token_path(@person.authentication_token),
+  :html => { :method => :get }  do |f|
   = f.label :opt_in
   = f.check_box :opt_in
   = f.submit "Save"
