@@ -31,15 +31,20 @@ describe Person do
       @groups = [stub_people(2), stub_people(2)]
       Person.stub!(:make_groups).and_return(@groups)
       
-      @groups.each {|g| Notifier.should_receive(:invite).with(g).once }
       Person.send_invitations
+      ActionMailer::Base.deliveries.length.should == @groups.count
     end
   end
 
   describe ".send_reminders" do
+    before do
+      Person.create!(:email => "foo@example.com")
+    end  
+
     it "sends the reminder to everyone" do
-      Person.all.each {|p| Notifier.should_receive(:remind).with(p).once }
       Person.send_reminders
+      Person.count.should_not be_zero
+      ActionMailer::Base.deliveries.length.should == Person.count
     end
   end
 

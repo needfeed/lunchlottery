@@ -18,11 +18,11 @@ class Person < ActiveRecord::Base
   end
 
   def self.send_invitations
-    opted_in.make_groups.each{|g| Notifier.invite(g) }
+    opted_in.make_groups.each{|g| Notifier.invite(g).deliver }
   end
 
   def self.send_reminders
-    all.each{|p| Notifier.remind(p) }
+    all.each{|p| Notifier.remind(p).deliver }
   end
 
   def self.make_groups
