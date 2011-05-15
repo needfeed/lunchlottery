@@ -32,7 +32,8 @@ describe Notifier do
       message.to.should == [@person.email]
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
-    end
+      message.body.to_s.should match /http:\/\/lunchlottery\.com\/people/
+      end
   end
 
 end

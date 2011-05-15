@@ -21,7 +21,7 @@ module LunchLottery
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.raise_delivery_errors = true
-
+    config.action_mailer.default_url_options = { :host => "lunchlottery.com" }
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
