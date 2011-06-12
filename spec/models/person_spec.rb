@@ -28,7 +28,7 @@ describe Person do
     end
 
     it "invites the grouped people" do
-      @groups = [stub_people(2), stub_people(2)]
+      @groups = [new_people(2), new_people(2)]
       Person.stub!(:make_groups).and_return(@groups)
       
       Person.send_invitations
@@ -74,7 +74,7 @@ describe Person do
     let(:user) { Person.create!(:email => "foo@example.com") }
 
     it "generates a uuid for the user" do
-      user.authentication_token.should be_present
+      user.authentication_token.should =~ /^\w{20}$/
     end
 
     it "persists the token" do
@@ -91,6 +91,7 @@ describe Person do
         Person.authenticate!(user.authentication_token).should == user
       end
     end
+
     context "with an invalid token" do
       it "throws an authentication failed error" do
         expect {
@@ -99,5 +100,4 @@ describe Person do
       end
     end
   end
-
 end

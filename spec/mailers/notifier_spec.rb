@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Notifier do
   describe ".invite" do
     before do
-      @people = stub_people
+      @people = new_people
       Notifier.invite(@people).deliver
     end
 
-    it "send the invite email" do
+    it "sends the invite email" do
       ActionMailer::Base.deliveries.length.should == 1
 
       message = ActionMailer::Base.deliveries.first
@@ -23,7 +23,7 @@ describe Notifier do
       @person = Person.create!(:email => "foo@example.com")
       Notifier.remind(@person).deliver
     end
-    
+
     it "sends the remind email" do
       ActionMailer::Base.deliveries.length.should == 1
 
@@ -33,7 +33,6 @@ describe Notifier do
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
       message.body.to_s.should match /http:\/\/lunchlottery\.com\/people/
-      end
+    end
   end
-
 end

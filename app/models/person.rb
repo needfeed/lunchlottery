@@ -1,5 +1,4 @@
 class Person < ActiveRecord::Base
-
   class TokenNotFound < RuntimeError
     def message
       "I couldn't find that token..."
@@ -45,8 +44,7 @@ class Person < ActiveRecord::Base
   def generate_authentication_token
     loop do
       self.authentication_token = ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')
-      break unless Person.where({ :authentication_token => self.authentication_token}).first
+      break unless Person.where({:authentication_token => self.authentication_token}).first
     end
   end
-
 end
