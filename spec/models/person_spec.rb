@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Person do
-
   before do
     Person.count.should == 0
   end
@@ -22,17 +21,21 @@ describe Person do
   end
 
   describe ".send_invitations" do
-    it "only invites opted in people" do
-      Person.should_receive(:opted_in).once.and_return(Person.scoped)
+    before do
+      @people = new_people(7)
+      @people.first.opt_in = false
+      @people.each(&:save!)
+
       Person.send_invitations
     end
 
-    it "invites the grouped people" do
-      @groups = [new_people(2), new_people(2)]
-      Person.stub!(:make_groups).and_return(@groups)
-      
-      Person.send_invitations
-      ActionMailer::Base.deliveries.length.should == @groups.count
+    it "invites groups of opted-in people" do
+      ActionMailer::Base.deliveries[0].to.length.should == 3
+      ActionMailer::Base.deliveries[1].to.length.should == 3
+    end
+
+    it "resets the opt-in flag" do
+      Person.opted_in.length.should == 7
     end
   end
 

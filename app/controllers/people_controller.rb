@@ -1,5 +1,4 @@
 class PeopleController < ApplicationController
-  
   def index
     @person = Person.new
     @people_count = Person.count
@@ -18,6 +17,7 @@ class PeopleController < ApplicationController
 
   def update
     @person = Person.find_by_authentication_token!(params[:token])
+    
     if @person.update_attributes(params[:person])
       flash[:notice] = "Your settings have been updated."
     else
@@ -26,5 +26,4 @@ class PeopleController < ApplicationController
 
     render :edit
   end
-
 end

@@ -1,7 +1,7 @@
 class Person < ActiveRecord::Base
   class TokenNotFound < RuntimeError
     def message
-      "I couldn't find that token..."
+      "I couldn't find that token."
     end
   end
 
@@ -17,11 +17,12 @@ class Person < ActiveRecord::Base
   end
 
   def self.send_invitations
-    opted_in.make_groups.each{|g| Notifier.invite(g).deliver }
+    opted_in.make_groups.each { |g| Notifier.invite(g).deliver }
+    Person.update_all :opt_in => true
   end
 
   def self.send_reminders
-    all.each{|p| Notifier.remind(p).deliver }
+    all.each { |p| Notifier.remind(p).deliver }
   end
 
   def self.make_groups
