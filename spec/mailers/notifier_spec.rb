@@ -28,7 +28,7 @@ describe Notifier do
       ActionMailer::Base.deliveries.length.should == 1
 
       message = ActionMailer::Base.deliveries.first
-      message.subject.should =~ /Lunch on Tuesday?/
+      message.subject.should =~ /Lunch on Tuesday\?/
       message.to.should == [@person.email]
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/

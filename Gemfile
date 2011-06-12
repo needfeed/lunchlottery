@@ -12,4 +12,5 @@ group :development, :test do
   gem 'heroku'
   gem 'timecop'
   gem 'webrat'
+  gem 'taps'
 end
