@@ -13,7 +13,7 @@ describe DailyCron do
     end
 
     (10..14).each do |day|
-      it "sends no other messages" do
+      it "sends no messages on may #{day}" do
         work_on_day_in_may(day)
         ActionMailer::Base.deliveries.should be_empty
       end
