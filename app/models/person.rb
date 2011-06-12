@@ -35,8 +35,8 @@ class Person < ActiveRecord::Base
     groups
   end
 
-  def self.authenticate!(token)
-    Person.where({ :authentication_token => token}).first or raise TokenNotFound
+  def self.find_by_authentication_token!(token)
+    Person.where(:authentication_token => token).first or raise TokenNotFound
   end
 
   protected
@@ -44,7 +44,7 @@ class Person < ActiveRecord::Base
   def generate_authentication_token
     loop do
       self.authentication_token = ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')
-      break unless Person.where({:authentication_token => self.authentication_token}).first
+      break unless Person.where(:authentication_token => self.authentication_token).first
     end
   end
 end

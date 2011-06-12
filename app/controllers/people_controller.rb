@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
   end
 
   def update
-    @person = Person.authenticate!(params[:token])
+    @person = Person.find_by_authentication_token!(params[:token])
     if @person.update_attributes(params[:person])
       flash[:notice] = "Your settings have been updated."
     else

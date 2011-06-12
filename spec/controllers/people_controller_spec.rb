@@ -53,7 +53,7 @@ describe PeopleController do
     end
     
     context "with an invalid token" do
-      before { get :update, :token => "this_is_a_nonexistant_token" }
+      before { get :update, :token => "this_is_a_nonexistent_token" }
       it { assigns(:person).should_not be_present }
       it { should render_template("application/error") }
       it { flash[:error].should match(/i couldn't find/i) }
