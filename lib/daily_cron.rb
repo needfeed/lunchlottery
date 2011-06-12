@@ -3,6 +3,8 @@ class DailyCron
   MONDAY = 1
 
   def self.work
+    return
+    
     case Date.today.wday
       when SUNDAY
         Person.send_reminders
@@ -10,5 +12,4 @@ class DailyCron
         Person.send_invitations
     end
   end
-
 end
