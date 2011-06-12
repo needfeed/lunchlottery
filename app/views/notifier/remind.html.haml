@@ -1,14 +1,14 @@
 %p Hello from lunchlottery.com!
 
-%p Want to lunch with some fun people on Tuesday?
+%p Want to lunch with some random people on Tuesday?
 
 %ul
   %li
     <b>Yes!</b>
-    Ok, great. You'll get an email tomorrow with your lunch mates.
+    Cool. You'll get an email tomorrow with your lunch mates.
 
   %li
     <b>No, I'm busy.</b>
     Ok, click
     = link_to "here", person_token_url(@person.authentication_token, :person => {:opt_in => false})
-    to opt out for this week.
+    to opt out for this week only.
