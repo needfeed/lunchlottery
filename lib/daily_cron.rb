@@ -3,13 +3,9 @@ class DailyCron
   MONDAY = 1
 
   def self.work
-    return
-    
-    case Date.today.wday
-      when SUNDAY
-        Person.send_reminders
-      when MONDAY
-        Person.send_invitations
-    end
+    today = Date.today.wday
+
+    Person.send_reminders if today == SUNDAY
+    Person.send_invitations if today == MONDAY
   end
 end
