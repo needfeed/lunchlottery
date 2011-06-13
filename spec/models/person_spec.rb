@@ -42,34 +42,39 @@ describe Person do
   describe ".send_reminders" do
     before do
       Person.create!(:email => "foo@example.com")
-    end  
+      Person.create!(:email => "foo2@example.com", :opt_in => false)
+    end
 
     it "sends the reminder to everyone" do
       Person.send_reminders
-      Person.count.should_not be_zero
-      ActionMailer::Base.deliveries.length.should == Person.count
+      Person.count.should == 2
+      ActionMailer::Base.deliveries.length.should == 2
     end
   end
 
   describe ".make_groups" do
-    it "sends 2 emails to 8 people, in groups of 4" do
-      mock_people
-      Person.make_groups.map {|g| g.size }.should == [4, 4]
-    end
-
     it "splits up 5 people into 2 groups" do
-      mock_people(5)
-      Person.make_groups.map {|g| g.size }.should == [3, 2]
+      mock_people_shuffle(5)
+      Person.make_groups.map(&:size).should == [3, 2]
     end
 
     it "splits up 6 people into 2 groups of 3" do
-      mock_people(6)
-      Person.make_groups.map {|g| g.size }.should == [3, 3]
+      mock_people_shuffle(6)
+      Person.make_groups.map(&:size).should == [3, 3]
+    end
+
+    it "sends 2 emails to 8 people, in groups of 4" do
+      mock_people_shuffle(8)
+      Person.make_groups.map(&:size).should == [4, 4]
     end
 
     it "splits up 9 people into 3 groups of 3" do
-      mock_people(9)
-      Person.make_groups.map {|g| g.size }.should == [3, 3, 3]
+      mock_people_shuffle(9)
+      Person.make_groups.map(&:size).should == [3, 3, 3]
+    end
+
+    def mock_people_shuffle(count)
+      Person.should_receive(:shuffled).once.and_return(new_people(count))
     end
   end
 

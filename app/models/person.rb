@@ -1,10 +1,4 @@
 class Person < ActiveRecord::Base
-  class TokenNotFound < RuntimeError
-    def message
-      "I couldn't find that token."
-    end
-  end
-
   validates :email, :email => true
   validates_uniqueness_of :email
 
@@ -17,12 +11,12 @@ class Person < ActiveRecord::Base
   end
 
   def self.send_invitations
-    opted_in.make_groups.each { |g| Notifier.invite(g).deliver }
+    opted_in.make_groups.each { |group| Notifier.invite(group).deliver }
     Person.update_all :opt_in => true
   end
 
   def self.send_reminders
-    all.each { |p| Notifier.remind(p).deliver }
+    all.each { |person| Notifier.remind(person).deliver }
   end
 
   def self.make_groups
@@ -37,7 +31,7 @@ class Person < ActiveRecord::Base
   end
 
   def self.find_by_authentication_token!(token)
-    Person.where(:authentication_token => token).first or raise TokenNotFound
+    Person.where(:authentication_token => token).first or raise "I couldn't find that token."
   end
 
   protected

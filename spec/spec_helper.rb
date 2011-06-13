@@ -33,10 +33,4 @@ RSpec.configure do |config|
       Person.new(:email => "#{i}@example.com")
     end
   end
-
-  # Haha people are fools!
-  def mock_people(count = 8)
-    Person.should_receive(:shuffled).once.and_return( new_people(count) )
-  end
-
 end
