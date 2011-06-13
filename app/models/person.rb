@@ -7,7 +7,7 @@ class Person < ActiveRecord::Base
   scope :opted_in, where(:opt_in => true)
 
   def self.send_invitations
-    groups = make_groups(Person.opted_in.all.shuffle)
+    groups = Grouper.make_groups(Person.opted_in.all.shuffle)
     groups.each do |group|
       Notifier.invite(group).deliver
     end
@@ -19,16 +19,6 @@ class Person < ActiveRecord::Base
     Person.all.each do |person|
       Notifier.remind(person).deliver
     end
-  end
-
-  def self.make_groups(items)
-    groups = []
-    until items.empty?
-      size = 4
-      size = 3 if [5, 6, 9].include?(items.length)
-      groups << items.slice!(0, size)
-    end
-    groups
   end
 
   def self.find_by_authentication_token!(token)

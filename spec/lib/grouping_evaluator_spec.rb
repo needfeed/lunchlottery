@@ -14,18 +14,6 @@ describe GroupingEvaluator do
     end
   end
 
-  describe ".evaluate" do
-    before do
-      @history << [
-        [:p1, :p2, :p3, :p4],[:p5, :p6, :p7],
-        [:p1, :p2, :p3, :p4],[:p5, :p6, :p7]
-      ]
-    end
-    xit "goes back in time to compare groupings and weight the results by distance" do
-      GroupingEvaluator.evaluate(@history).should == 0 + 18 * 0.25 + 18 * 0.5 + 18 * 1
-    end
-  end
-
   describe "hashify" do
     it "takes the history array and converts it to awesome" do
       GroupingEvaluator.hashify(@history.first).should == {
