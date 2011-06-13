@@ -7,7 +7,7 @@ class Person < ActiveRecord::Base
   scope :opted_in, where(:opt_in => true)
 
   def self.find_by_authentication_token!(token)
-    Person.where(:authentication_token => token).first or raise "I couldn't find that token."
+    find_by_authentication_token(token) or raise "I couldn't find that token."
   end
 
   protected
@@ -15,7 +15,7 @@ class Person < ActiveRecord::Base
   def generate_authentication_token
     loop do
       self.authentication_token = ActiveSupport::SecureRandom.base64(15).tr('+/=', 'xyz')
-      break unless Person.where(:authentication_token => self.authentication_token).first
+      break unless self.class.find_by_authentication_token(self.authentication_token)
     end
   end
 end

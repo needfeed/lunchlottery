@@ -1,6 +1,7 @@
 module Lottery
   def self.send_invitations!
-    groups = Grouper.make_groups(Person.opted_in.all.shuffle)
+    shuffled_people = Person.opted_in.all.shuffle
+    groups = Grouper.make_groups(shuffled_people)
     groups.each do |group|
       Notifier.invite(group).deliver
     end

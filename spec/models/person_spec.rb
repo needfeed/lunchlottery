@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Person do
   before do
-    Person.count.should == 0
+    Person.all.should be_empty
   end
 
   describe "validations" do
