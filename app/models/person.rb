@@ -6,26 +6,27 @@ class Person < ActiveRecord::Base
   
   scope :opted_in, where(:opt_in => true)
 
-  def self.shuffled
-    Person.all.shuffle
-  end
-
   def self.send_invitations
-    opted_in.make_groups.each { |group| Notifier.invite(group).deliver }
+    groups = make_groups(Person.opted_in.all.shuffle)
+    groups.each do |group|
+      Notifier.invite(group).deliver
+    end
+
     Person.update_all :opt_in => true
   end
 
   def self.send_reminders
-    all.each { |person| Notifier.remind(person).deliver }
+    Person.all.each do |person|
+      Notifier.remind(person).deliver
+    end
   end
 
-  def self.make_groups
+  def self.make_groups(items)
     groups = []
-    people = shuffled
-    until people.empty?
-      group_size = 4
-      group_size = 3 if [5, 6, 9].include?(people.length)
-      groups << people.slice!(0, group_size)
+    until items.empty?
+      size = 4
+      size = 3 if [5, 6, 9].include?(items.length)
+      groups << items.slice!(0, size)
     end
     groups
   end
