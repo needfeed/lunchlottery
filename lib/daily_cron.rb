@@ -5,7 +5,7 @@ class DailyCron
   def self.work
     today = Date.today.wday
 
-    Person.send_reminders if today == SUNDAY
-    Person.send_invitations if today == MONDAY
+    Lottery.send_reminders! if today == SUNDAY
+    Lottery.send_invitations! if today == MONDAY
   end
 end

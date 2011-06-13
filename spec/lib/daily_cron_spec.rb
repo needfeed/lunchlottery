@@ -3,12 +3,12 @@ require 'spec_helper'
 describe DailyCron do
   describe ".work" do
     it "sends reminders on sunday" do
-      Person.should_receive(:send_reminders)
+      Lottery.should_receive(:send_reminders!)
       work_on_day_in_may(8)
     end
 
     it "sends invitations on monday" do
-      Person.should_receive(:send_invitations)
+      Lottery.should_receive(:send_invitations!)
       work_on_day_in_may(9)
     end
 
