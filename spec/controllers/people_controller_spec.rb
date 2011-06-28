@@ -2,26 +2,47 @@ require 'spec_helper'
 
 describe PeopleController do
   describe "#index" do
-    it "should get a list of user names" do
-      get :index
+    it "should get a count of people who have signed up" do
+      Location.create!(:name => "mylocation")
+      get :index, :location => "mylocation"
       assigns(:people_count).should be_an(Integer)
       response.body.should =~ /Zero people/
     end
   end
 
+  describe "#welcome" do
+    it "should succeed" do
+      get :welcome
+      response.should be_success
+    end
+  end
+
   describe "#create" do
     it "should create a new person" do
+      Location.create!(:name => "mylocation")
+
       expect {
-        post :create, :person => {:email => "me@example.com"}
+        post :create, :person => {:email => "me@example.com"}, :location => "mylocation"
       }.to change(Person, :count).by(1)
 
-      response.should redirect_to(root_path)
+      response.should redirect_to("/mylocation")
       flash[:message].should_not be_nil
     end
     
-    it "should render the form if there's a validation error" do
+    it "should redirect to home if the location doesn't exist" do
       expect {
-        post :create, :person => {:email => "me"}
+        post :create, :person => {:email => "me@example.com"}, :location => "badlocation"
+      }.not_to change(Person, :count)
+
+      response.should redirect_to("/")
+      flash[:message].should be_nil
+    end
+
+    it "should render the form if the email is invalid" do
+      Location.create!(:name => "mylocation")
+
+      expect {
+        post :create, :person => {:email => "me"}, :location => "mylocation"
       }.to change(Person, :count).by(0)
       
       assigns(:people_count).should be_an(Integer)
@@ -32,11 +53,11 @@ describe PeopleController do
   end
 
   describe "#update" do
-    let(:person) { Person.create!(:email => "foo@example.com") }
+    let(:person) { create_person(:email => "foo@example.com") }
 
     context "with a valid token, setting false" do
       before { get :update, :token => person.authentication_token, :person => {:opt_in => "false" } }
-      
+
       it { assigns(:person).should be_present }
       it { response.should be_success }
       it { should render_template("people/edit") }

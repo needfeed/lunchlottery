@@ -2,13 +2,23 @@ class PeopleController < ApplicationController
   def index
     @person = Person.new
     @people_count = Person.count
+    @location = Location.find_by_name(params[:location])
+  end
+
+  def welcome
   end
 
   def create
-    @person = Person.new(params[:person])
+    @location = Location.find_by_name(params[:location])
+    if @location.nil?
+      redirect_to root_path
+      return
+    end
+    
+    @person = Person.new(params[:person].merge(:location => @location))
     if @person.save
       flash[:message] = "Cool, you're signed up!"
-      redirect_to root_path
+      redirect_to location_path(@location)
     else
       @people_count = Person.count
       render :template => "people/index"

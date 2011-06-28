@@ -1,0 +1,8 @@
+%h1 Lunch Lottery
+
+%p
+  Go to lunch in random groups of 4 <b>every Tuesday.</b>
+
+- Location.all.each do |location|
+  %p
+    = link_to(location.name, location_path(location))

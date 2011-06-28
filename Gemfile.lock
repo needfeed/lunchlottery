@@ -90,6 +90,7 @@ GEM
     sequel (3.20.0)
     sinatra (1.0)
       rack (>= 1.0)
+    spork (0.8.5)
     sqlite3 (1.3.3)
     sqlite3-ruby (1.3.3)
       sqlite3 (>= 1.3.3)
@@ -119,6 +120,7 @@ DEPENDENCIES
   linguistics
   rails (= 3.0.5)
   rspec-rails
+  spork
   sqlite3
   taps
   timecop

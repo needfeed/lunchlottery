@@ -1,8 +1,11 @@
 class Person < ActiveRecord::Base
   validates :email, :email => true
   validates_uniqueness_of :email
+  validates_presence_of :location
 
   before_create :generate_authentication_token
+
+  belongs_to :location
   
   scope :opted_in, where(:opt_in => true)
 

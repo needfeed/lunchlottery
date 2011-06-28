@@ -1,9 +1,10 @@
 LunchLottery::Application.routes.draw do
 
-  root :to => "people#index"
+  root :to => "people#welcome"
 
-  get       "people/:token" => "people#update",   :as => :person_token
-  resources :people, :except => [:edit, :update]
+  get "people/:token" => "people#update", :as => :person_token
+  get ":location" => "people#index", :as => :location
+  post "people" => "people#create"
 
   match ':controller(/:action(/:id(.:format)))'
 

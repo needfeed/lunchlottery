@@ -22,8 +22,8 @@ describe Lottery do
 
   describe ".send_reminders!" do
     before do
-      Person.create!(:email => "foo@example.com")
-      Person.create!(:email => "foo2@example.com", :opt_in => false)
+      create_person(:email => "foo@example.com")
+      create_person(:email => "foo2@example.com", :opt_in => false)
     end
 
     it "sends the reminder to everyone" do

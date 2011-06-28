@@ -10,14 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110504031242) do
+ActiveRecord::Schema.define(:version => 20110628032726) do
 
-  create_table "people", :force => true do |t|
-    t.string   "email"
+  create_table "locations", :force => true do |t|
+    t.string   "name"
+    t.string   "meeting_point"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "authentication_token"
-    t.boolean  "opt_in",               :default => true, :null => false
+  end
+
+  create_table "people", :force => true do |t|
+    t.string    "email"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "authentication_token"
+    t.boolean   "opt_in",               :default => true, :null => false
+    t.integer   "location_id"
   end
 
 end

@@ -13,4 +13,5 @@ group :development, :test do
   gem 'timecop'
   gem 'webrat'
   gem 'taps'
+  gem 'spork'
 end
