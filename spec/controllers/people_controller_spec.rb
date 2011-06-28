@@ -3,10 +3,15 @@ require 'spec_helper'
 describe PeopleController do
   describe "#index" do
     it "should get a count of people who have signed up" do
-      Location.create!(:name => "mylocation")
+      location = Location.create!(:name => "mylocation")
+      new_people(2, location).map(&:save!)
+
+      other_location = Location.create!(:name => "my_other_location")
+      new_people(3, other_location).map(&:save!)
+
       get :index, :location => "mylocation"
-      assigns(:people_count).should be_an(Integer)
-      response.body.should =~ /Zero people/
+      assigns(:people_count).should == 2
+      response.body.should =~ /Two people/
     end
   end
 
@@ -39,13 +44,17 @@ describe PeopleController do
     end
 
     it "should render the form if the email is invalid" do
-      Location.create!(:name => "mylocation")
+      location = Location.create!(:name => "mylocation")
+      new_people(2, location).map(&:save!)
+
+      other_location = Location.create!(:name => "my_other_location")
+      new_people(3, other_location).map(&:save!)
 
       expect {
         post :create, :person => {:email => "me"}, :location => "mylocation"
       }.to change(Person, :count).by(0)
       
-      assigns(:people_count).should be_an(Integer)
+      assigns(:people_count).should == 2
       response.should be_success
       response.should render_template("people/index")
       response.body.should =~ /not valid/
