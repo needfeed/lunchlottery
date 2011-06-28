@@ -18,5 +18,6 @@
 = form_for @person do |f|
   = f.label :email, "Email:"
   = f.text_field :email
+  = hidden_field_tag :location, @location.name
 
   = f.submit "Sign me up!"
