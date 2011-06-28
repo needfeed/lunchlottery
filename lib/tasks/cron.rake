@@ -1,3 +1,3 @@
 task :cron => :environment do
-  DailyCron.work
+#  DailyCron.work
 end
