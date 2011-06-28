@@ -3,20 +3,31 @@ require 'spec_helper'
 describe Lottery do
   describe ".send_invitations!" do
     before do
-      @people = new_people(7)
-      @people.first.opt_in = false
-      @people.each(&:save!)
+      @pivotal = Location.create!(:name => "pivotal")
+      @pivotal_people = new_people(7, @pivotal)
+      @pivotal_people.first.opt_in = false
+      @pivotal_people.each(&:save!)
+
+      @storek = Location.create!(:name => "storek")
+      @storek_people = new_people(3, @storek)
+      @storek_people.each(&:save!)
 
       Lottery.send_invitations!
     end
 
     it "invites groups of opted-in people" do
-      ActionMailer::Base.deliveries[0].to.length.should == 3
-      ActionMailer::Base.deliveries[1].to.length.should == 3
+      (ActionMailer::Base.deliveries[0].to + ActionMailer::Base.deliveries[1].to).should =~ %w[
+        pivotal_2@example.com pivotal_3@example.com pivotal_4@example.com
+        pivotal_5@example.com pivotal_6@example.com pivotal_7@example.com
+      ]
+      
+      ActionMailer::Base.deliveries[2].to.to_a.should =~ %w[
+        storek_1@example.com storek_2@example.com storek_3@example.com
+      ]
     end
 
     it "resets the opt-in flag" do
-      Person.opted_in.length.should == 7
+      Person.opted_in.length.should == 10
     end
   end
 

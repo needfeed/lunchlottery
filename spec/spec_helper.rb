@@ -36,9 +36,9 @@ Spork.prefork do
       ActionMailer::Base.deliveries = []
     end
 
-    def new_people(count = 8)
+    def new_people(count = 8, location = Location.new)
       (1..count).map do |i|
-        Person.new(:email => "#{i}@example.com", :location => Location.new)
+        Person.new(:email => "#{location.name}_#{i}@example.com", :location => location)
       end
     end
 

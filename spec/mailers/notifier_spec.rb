@@ -1,23 +1,6 @@
 require 'spec_helper'
 
 describe Notifier do
-  describe ".invite" do
-    before do
-      @people = new_people
-      Notifier.invite(@people).deliver
-    end
-
-    it "sends the invite email" do
-      ActionMailer::Base.deliveries.length.should == 1
-
-      message = ActionMailer::Base.deliveries.first
-      message.subject.should =~ /Your lunch tomorrow/
-      message.to.should == @people.collect(&:email)
-      message.from.should == ["dine@lunchlottery.com"]
-      message.body.to_s.should match /Hello/
-    end
-  end
-
   describe ".remind" do
     before do
       @person = create_person(:email => "foo@example.com")
@@ -33,6 +16,25 @@ describe Notifier do
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
       message.body.to_s.should match /http:\/\/lunchlottery\.com\/people/
+    end
+  end
+
+  describe ".invite" do
+    before do
+      @location = Location.new(:name => "mylocation", :meeting_point => "at the door")
+      @people = new_people(8, @location)
+      Notifier.invite(@people, @location ).deliver
+    end
+
+    it "sends the invite email" do
+      ActionMailer::Base.deliveries.length.should == 1
+
+      message = ActionMailer::Base.deliveries.first
+      message.subject.should =~ /Your lunch tomorrow/
+      message.to.should == @people.collect(&:email)
+      message.from.should == ["dine@lunchlottery.com"]
+      message.body.to_s.should match /Hello/
+      message.body.to_s.should match /at the door/
     end
   end
 end

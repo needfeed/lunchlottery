@@ -1,6 +1,7 @@
 class Notifier < ActionMailer::Base
-  def invite(people)
+  def invite(people, location)
     @people = people
+    @location = location
     mail(:to => @people.map(&:email),
          :subject => "Your lunch tomorrow",
          :from => "dine@lunchlottery.com")
