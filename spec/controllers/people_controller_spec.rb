@@ -13,6 +13,11 @@ describe PeopleController do
       assigns(:people_count).should == 2
       response.body.should =~ /Two people/
     end
+    
+    it "should redirect to welcome if the location doesn't exist" do
+      get :index, :location => "badlocation"
+      response.should redirect_to(root_path)
+    end
   end
 
   describe "#welcome" do

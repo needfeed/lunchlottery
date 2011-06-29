@@ -1,7 +1,8 @@
 class PeopleController < ApplicationController
+  before_filter :load_location, :only => [:index, :create]
+  
   def index
     @person = Person.new
-    @location = Location.find_by_name(params[:location])
     @people_count = @location.people.count
   end
 
@@ -9,12 +10,6 @@ class PeopleController < ApplicationController
   end
 
   def create
-    @location = Location.find_by_name(params[:location])
-    if @location.nil?
-      redirect_to root_path
-      return
-    end
-    
     @person = Person.new(params[:person].merge(:location => @location))
     if @person.save
       flash[:message] = "Cool, you're signed up!"
@@ -35,5 +30,13 @@ class PeopleController < ApplicationController
     end
 
     render :edit
+  end
+  
+  def load_location
+    @location = Location.find_by_name(params[:location])
+    if @location.nil?
+      redirect_to root_path
+      return
+    end
   end
 end
