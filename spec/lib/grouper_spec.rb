@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Grouper do
   describe ".make_groups" do
-    it "splits up 5 people into 2 groups" do
-      Grouper.make_groups(new_people(5)).map(&:size).should == [3, 2]
+    it "splits up 5 people" do
+      Grouper.make_groups(new_people(5)).map(&:size).should == [5]
     end
 
     it "splits up 6 people into 2 groups of 3" do
