@@ -35,6 +35,7 @@ describe Notifier do
       message.to.should == @people.collect(&:email)
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
+      message.body.to_s.should match /gravatar/
       message.body.to_s.should match /at the door/
     end
   end

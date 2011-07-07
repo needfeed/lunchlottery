@@ -4,6 +4,8 @@
 
 %ul
   - @people.each do |person|
-    %li= person.email
+    %li
+      %img{ :src => person.gravatar_url }
+      = person.email
 
 %p= @location.meeting_point
