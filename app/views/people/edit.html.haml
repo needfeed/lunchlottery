@@ -1,8 +1,7 @@
 = form_for @person, :url => person_token_path(@person.authentication_token), :html => {:method => :get} do |f|
   %p
-    <b>#{@person.email}</b> is #{@person.opt_in ? "going" : "not going"} this week.
+    <b>#{@person.email}</b> is #{@person.going? ? "going" : "not going"} this week.
 
   %p
-    = f.label :opt_in
-    = f.check_box :opt_in
-    = f.submit "Save"
+    = f.hidden_field :opt_in, :value => !@person.going?
+    = f.submit "Actually, I #{!@person.going? ? "want to go" : "don't want to go"}"
