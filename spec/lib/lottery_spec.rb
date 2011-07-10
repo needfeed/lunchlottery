@@ -4,12 +4,12 @@ describe Lottery do
   describe ".send_invitations!" do
     before do
       @pivotal = Location.create!(:name => "pivotal")
-      @pivotal_people = new_people(7, @pivotal)
+      @pivotal_people = new_people(7, @pivotal, true)
       @pivotal_people.first.opt_in = false
       @pivotal_people.each(&:save!)
 
       @storek = Location.create!(:name => "storek")
-      @storek_people = new_people(3, @storek)
+      @storek_people = new_people(3, @storek, true)
       @storek_people.each(&:save!)
 
       Lottery.send_invitations!
@@ -27,7 +27,7 @@ describe Lottery do
     end
 
     it "resets the opt-in flag" do
-      Person.opted_in.length.should == 10
+      Person.opted_in.length.should == 0
     end
   end
 

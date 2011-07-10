@@ -13,6 +13,16 @@ class Person < ActiveRecord::Base
     find_by_authentication_token(token) or raise "I couldn't find that token."
   end
 
+  def going?
+    self.opt_in
+  end
+
+  def gravatar_url
+    email_address = self.email.downcase
+    hash = Digest::MD5.hexdigest(email_address)
+    "http://www.gravatar.com/avatar/#{hash}?s=50"
+  end
+
   protected
 
   def generate_authentication_token

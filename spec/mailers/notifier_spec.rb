@@ -15,6 +15,7 @@ describe Notifier do
       message.to.should == [@person.email]
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
+      message.body.to_s.should include person_token_url(@person.authentication_token, :person => {:opt_in => true})
       message.body.to_s.should match /http:\/\/lunchlottery\.com\/people/
     end
   end
@@ -34,6 +35,7 @@ describe Notifier do
       message.to.should == @people.collect(&:email)
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
+      message.body.to_s.should match /gravatar/
       message.body.to_s.should match /at the door/
     end
   end

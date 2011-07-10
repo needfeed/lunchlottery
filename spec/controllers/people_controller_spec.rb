@@ -13,7 +13,7 @@ describe PeopleController do
       assigns(:people_count).should == 2
       response.body.should =~ /Two people/
     end
-    
+
     it "should redirect to welcome if the location doesn't exist" do
       get :index, :location => "badlocation"
       response.should redirect_to(root_path)
@@ -32,16 +32,16 @@ describe PeopleController do
       Location.create!(:name => "mylocation")
 
       expect {
-        post :create, :person => {:email => "me@example.com"}, :location => "mylocation"
+        post :create, :person => { :email => "me@example.com" }, :location => "mylocation"
       }.to change(Person, :count).by(1)
 
       response.should redirect_to("/mylocation")
       flash[:message].should_not be_nil
     end
-    
+
     it "should redirect to home if the location doesn't exist" do
       expect {
-        post :create, :person => {:email => "me@example.com"}, :location => "badlocation"
+        post :create, :person => { :email => "me@example.com" }, :location => "badlocation"
       }.not_to change(Person, :count)
 
       response.should redirect_to("/")
@@ -56,9 +56,9 @@ describe PeopleController do
       new_people(3, other_location).map(&:save!)
 
       expect {
-        post :create, :person => {:email => "me"}, :location => "mylocation"
+        post :create, :person => { :email => "me" }, :location => "mylocation"
       }.to change(Person, :count).by(0)
-      
+
       assigns(:people_count).should == 2
       response.should be_success
       response.should render_template("people/index")
@@ -70,23 +70,38 @@ describe PeopleController do
     let(:person) { create_person(:email => "foo@example.com") }
 
     context "with a valid token, setting false" do
-      before { get :update, :token => person.authentication_token, :person => {:opt_in => "false" } }
+      before { get :update, :token => person.authentication_token, :person => { :opt_in => "false" } }
 
       it { assigns(:person).should be_present }
       it { response.should be_success }
       it { should render_template("people/edit") }
       it { flash[:notice].should match(/updated/) }
-      
+
       it "persists the opt in param" do
         Person.find_by_id(person.id).should_not be_opt_in
       end
-      
+
       it "renders a form for further updating update" do
         response.should have_selector("form", :action => person_token_path(person.authentication_token),
-                                              :method => 'get')
+                                      :method => 'get')
+      end
+
+      it "renders a button to go if the person is currently not going" do
+        person.should_not be_opt_in
+        response.should have_selector("input", :type => 'submit', :value => "Actually, I want to go")
       end
     end
-    
+
+    context "when the person is currently going" do
+      before do
+        get :update, :token => person.authentication_token, :person => { :opt_in => "true" }
+      end
+      it "should renders a button to not go" do
+        person.reload.should be_opt_in
+        response.should have_selector("input", :type => 'submit', :value => "Actually, I don't want to go")
+      end
+    end
+
     context "with an invalid token" do
       before { get :update, :token => "this_is_a_nonexistent_token" }
       it { assigns(:person).should_not be_present }
@@ -94,5 +109,4 @@ describe PeopleController do
       it { flash[:error].should match(/i couldn't find/i) }
     end
   end
-
 end
