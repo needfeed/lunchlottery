@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110707223322) do
+ActiveRecord::Schema.define(:version => 20110711224251) do
+
+  create_table "location_restaurants", :force => true do |t|
+    t.integer  "location_id"
+    t.integer  "restaurant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "locations", :force => true do |t|
     t.string   "name"
@@ -26,6 +33,15 @@ ActiveRecord::Schema.define(:version => 20110707223322) do
     t.string   "authentication_token"
     t.boolean  "opt_in",               :default => false, :null => false
     t.integer  "location_id"
+  end
+
+  create_table "restaurants", :force => true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.float    "longitude"
+    t.float    "latitude"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

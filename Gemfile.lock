@@ -35,6 +35,7 @@ GEM
     email_validator (1.0.0)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    geocoder (1.0.2)
     haml (3.0.25)
     heroku (1.19.1)
       activesupport (>= 2.1.0)
@@ -88,6 +89,7 @@ GEM
       railties (~> 3.0)
       rspec (~> 2.5.0)
     sequel (3.20.0)
+    shoulda (2.11.3)
     sinatra (1.0)
       rack (>= 1.0)
     spork (0.8.5)
@@ -115,11 +117,13 @@ PLATFORMS
 
 DEPENDENCIES
   email_validator
+  geocoder
   haml
   heroku
   linguistics
   rails (= 3.0.5)
   rspec-rails
+  shoulda
   spork
   sqlite3
   taps
