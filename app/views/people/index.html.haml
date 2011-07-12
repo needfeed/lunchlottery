@@ -22,9 +22,11 @@
 
   = f.submit "Sign me up!"
 
+%img{:src => google_map_url(@location)}
 %ul
-  - @location.restaurants.each do |restaurant|
+  - @location.restaurants.each_with_index do |restaurant, index|
     %li
-      %p= restaurant.name + ": " + restaurant.address
-      %img{:src => "http://maps.google.com/maps/api/staticmap?size=450x300&sensor=false&zoom=16&markers=#{restaurant.latitude}%2C#{restaurant.longitude}"}
- 
+      %p
+        %img{:src => "http://www.google.com/mapfiles/marker#{google_map_pin_label(index)}.png"}
+        = restaurant.name + ": " + restaurant.address
+
