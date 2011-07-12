@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Lottery do
   describe ".send_invitations!" do
     before do
-      @pivotal = Location.create!(:name => "pivotal")
+      @pivotal = Location.create!(:name => "pivotal", :address => "731 Market Street San Francisco, CA")
       @pivotal_people = new_people(7, @pivotal, true)
       @pivotal_people.first.opt_in = false
       @pivotal_people.each(&:save!)
 
-      @storek = Location.create!(:name => "storek")
+      @storek = Location.create!(:name => "storek", :address => "149 9th Street San Francisco, CA")
       @storek_people = new_people(3, @storek, true)
       @storek_people.each(&:save!)
 

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe PeopleController do
   describe "#index" do
     it "should get a count of people who have signed up" do
-      location = Location.create!(:name => "mylocation")
+      location = Location.create!(:name => "mylocation", :address => "149 9th Street San Francisco, CA")
       new_people(2, location).map(&:save!)
 
-      other_location = Location.create!(:name => "my_other_location")
+      other_location = Location.create!(:name => "my_other_location", :address => "149 9th Street San Francisco, CA")
       new_people(3, other_location).map(&:save!)
 
       get :index, :location => "mylocation"
@@ -29,7 +29,7 @@ describe PeopleController do
 
   describe "#create" do
     it "should create a new person" do
-      Location.create!(:name => "mylocation")
+      Location.create!(:name => "mylocation", :address => "149 9th Street San Francisco, CA")
 
       expect {
         post :create, :person => { :email => "me@example.com" }, :location => "mylocation"
@@ -49,10 +49,10 @@ describe PeopleController do
     end
 
     it "should render the form if the email is invalid" do
-      location = Location.create!(:name => "mylocation")
+      location = Location.create!(:name => "mylocation", :address => "149 9th Street San Francisco, CA")
       new_people(2, location).map(&:save!)
 
-      other_location = Location.create!(:name => "my_other_location")
+      other_location = Location.create!(:name => "my_other_location",:address => "149 9th Street San Francisco, CA")
       new_people(3, other_location).map(&:save!)
 
       expect {
