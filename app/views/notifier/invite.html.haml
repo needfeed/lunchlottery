@@ -1,5 +1,17 @@
 %p Hello from lunchlottery.com!
 
+%p
+  = @opted_in_count 
+  people of
+  = @total_people.size
+  were available for lunch this week and were divided into
+  - @group_stats.keys.each_with_index do |group_size, index|
+    = pluralize(@group_stats[group_size], "group")
+    of
+    = group_size
+    people
+    = ' and ' unless index == @group_stats.size - 1
+
 %p You are all going to lunch together tomorrow:
 
 %ul
@@ -9,3 +21,4 @@
       = person.email
 
 %p= @location.meeting_point
+
