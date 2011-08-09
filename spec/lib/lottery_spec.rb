@@ -30,6 +30,14 @@ describe Lottery do
       Person.opted_in.length.should == 0
     end
   end
+  
+  it "doesn't send an invitation if a group has less than 3 people" do
+    location = Location.create!(:name => "yelp")
+    new_people(2, location, true).each(&:save!)
+    
+    Lottery.send_invitations!
+    ActionMailer::Base.deliveries.should be_empty
+  end
 
   describe ".send_reminders!" do
     before do
