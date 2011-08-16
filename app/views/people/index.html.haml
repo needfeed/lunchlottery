@@ -22,11 +22,12 @@
 
   = f.submit "Sign me up!"
 
-%img{:src => google_map_url(@location)}
-%ul
-  - @location.restaurants.each_with_index do |restaurant, index|
-    %li
-      %p
-        %img{:src => "http://www.google.com/mapfiles/marker#{google_map_pin_label(index)}.png"}
-        = restaurant.name + ": " + restaurant.address
+- if @location.restaurants.present?
+  %img{:src => google_map_url(@location)}
+  %ul
+    - @location.restaurants.each_with_index do |restaurant, index|
+      %li
+        %p
+          %img{:src => "http://www.google.com/mapfiles/marker#{google_map_pin_label(index)}.png"}
+          = restaurant.name + ": " + restaurant.address
 
