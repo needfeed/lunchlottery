@@ -7,6 +7,7 @@ gem 'haml'
 gem 'email_validator'
 gem 'linguistics'
 gem 'geocoder'
+gem 'awesome_print'
 
 group :development, :test do
   gem 'rspec-rails'
