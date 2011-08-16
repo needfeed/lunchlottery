@@ -5,8 +5,9 @@ module Lottery
       
       if shuffled_people.length > 2
         groups = Grouper.make_groups(shuffled_people)
+        total_people = location.people
         groups.each do |group|
-          Notifier.invite(group, location).deliver
+          Notifier.invite(group, location, total_people, groups).deliver
         end
       end
     end

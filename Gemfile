@@ -6,6 +6,7 @@ gem 'sqlite3'
 gem 'haml'
 gem 'email_validator'
 gem 'linguistics'
+gem 'geocoder'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -14,4 +15,6 @@ group :development, :test do
   gem 'webrat'
   gem 'taps'
   gem 'spork'
+  gem 'shoulda'
 end
+

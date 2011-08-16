@@ -52,7 +52,7 @@ describe Person do
 
   describe "location" do
     it "should have a location" do
-      location = Location.create!(:name => "pivotal")
+      location = Location.create!(:name => "pivotal", :address => "731 Market Street San Francisco, CA")
       create_person(:email => "asdf@example.com", :location => location)
       Person.find_by_email("asdf@example.com").location.should == Location.find_by_name("pivotal")
     end

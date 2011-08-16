@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Lottery do
   describe ".send_invitations!" do
     before do
-      @pivotal = Location.create!(:name => "pivotal")
+      @pivotal = Location.create!(:name => "pivotal", :address => "731 Market Street San Francisco, CA")
       @pivotal_people = new_people(7, @pivotal, true)
       @pivotal_people.first.opt_in = false
       @pivotal_people.each(&:save!)
 
-      @storek = Location.create!(:name => "storek")
+      @storek = Location.create!(:name => "storek", :address => "149 9th Street San Francisco, CA")
       @storek_people = new_people(3, @storek, true)
       @storek_people.each(&:save!)
 
@@ -32,7 +32,7 @@ describe Lottery do
   end
   
   it "doesn't send an invitation if a group has less than 3 people" do
-    location = Location.create!(:name => "yelp")
+    location = Location.create!(:name => "yelp", :address => "1 Market Street")
     new_people(2, location, true).each(&:save!)
     
     Lottery.send_invitations!
