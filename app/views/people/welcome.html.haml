@@ -3,6 +3,12 @@
 %p
   Go to lunch in random groups of 4 <b>every Tuesday.</b>
 
+%h3 Pick your location:
+
 - Location.all.each do |location|
   %p
     = link_to(location.name, location_path(location))
+
+
+%p
+  = link_to("Or, start a new lunch lottery", new_location_path, :id => "create_location")

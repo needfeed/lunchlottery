@@ -27,3 +27,25 @@ h1 {
 li {
   list-style-type: none;
 }
+
+#new_location {
+  text-align: left;
+  margin: 0 auto;
+  width: 350px;
+}
+
+#new_location label {
+  width: 125px;
+  display: inline-block;
+  text-align: right;
+}
+
+#new_location #location_submit {
+  margin: 10px auto;
+  width: 125px;
+  display: block;
+}
+
+#create_location {
+  font-weight: bold;
+}
