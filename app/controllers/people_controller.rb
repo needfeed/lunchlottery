@@ -3,7 +3,8 @@ class PeopleController < ApplicationController
   
   def index
     @person = Person.new
-    @people_count = @location.people.count
+    @people = @location.people
+    @people_count = @people.count
   end
 
   def welcome
@@ -15,7 +16,8 @@ class PeopleController < ApplicationController
       flash[:message] = "Cool, you're signed up!"
       redirect_to location_path(@location)
     else
-      @people_count = @location.people.count
+      @people = @location.people
+      @people_count = @people.count
       render :template => "people/index"
     end
   end

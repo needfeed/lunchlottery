@@ -50,3 +50,8 @@ li {
 #create_location {
   font-weight: bold;
 }
+
+#people_at_location {
+    width: 250px;
+    margin: 0 auto;
+}

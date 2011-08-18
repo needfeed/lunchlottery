@@ -22,6 +22,15 @@
 
   = f.submit "Sign me up!"
 
+
+%h3 People at #{@location.name}
+%div#people_at_location
+  - @people.each do |person|
+    %img{ :src => person.gravatar_url, :class => "gravatar" }
+
+
+%h3 Favorite Restaurants for #{@location.name}
+
 - if @location.restaurants.present?
   %img{:src => google_map_url(@location)}
   %ul
