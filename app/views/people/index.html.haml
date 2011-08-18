@@ -31,3 +31,5 @@
           %img{:src => "http://www.google.com/mapfiles/marker#{google_map_pin_label(index)}.png"}
           = restaurant.name + ": " + restaurant.address
 
+%div
+  = link_to "Add A Restaurant for #{@location.name}", new_location_restaurant_path(@location), :alt => "foo"
