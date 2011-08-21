@@ -18,6 +18,15 @@ describe PeopleController do
       get :index, :location => "badlocation"
       response.should redirect_to(root_path)
     end
+
+    it "should show gravatars of people in the location" do
+      location = Location.create!(:name => "mylocation", :address => "149 9th Street San Francisco, CA")
+      people = new_people(2, location)
+      people.map(&:save!)
+
+      get :index, :location => "mylocation"
+      Nokogiri::HTML(response.body).css("img.gravatar").map { |node| node.attr("src") }.should =~ people.map(&:gravatar_url)
+    end
   end
 
   describe "#welcome" do

@@ -31,13 +31,14 @@ li {
 #new_location {
   text-align: left;
   margin: 0 auto;
-  width: 350px;
+  width: 253px;
 }
 
 #new_location label {
   width: 125px;
+  margin-top: 10px;
   display: inline-block;
-  text-align: right;
+  text-align: left;
 }
 
 #new_location #location_submit {
@@ -48,4 +49,9 @@ li {
 
 #create_location {
   font-weight: bold;
+}
+
+#people_at_location {
+    width: 250px;
+    margin: 0 auto;
 }

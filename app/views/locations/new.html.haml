@@ -1,15 +1,14 @@
 %h3 Create A New Location
 
-#new_location
-  = form_for @location || Location.new do |f|
-    %div
-      = f.label :name
-      = f.text_field :name
-    %div
-      = f.label :meeting_point
-      = f.text_field :meeting_point
-    %div
-      = f.label :address
-      = f.text_field :address
-    %div
-      = f.submit
+= form_for @location || Location.new do |f|
+  %div
+    = f.label :name
+    = f.text_field :name
+  %div
+    = f.label :meeting_point
+    = f.text_field :meeting_point
+  %div
+    = f.label :address
+    = f.text_field :address
+  %div
+    = f.submit

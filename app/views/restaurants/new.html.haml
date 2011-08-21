@@ -1,0 +1,11 @@
+%h3 Create A New Restaurant
+
+= form_for @restaurant || Restaurant.new, :url =>  location_restaurants_path(:location_id => @location.to_param) do |f|
+  %div
+    = f.label :name
+    = f.text_field :name
+  %div
+    = f.label :address
+    = f.text_field :address
+  %div
+    = f.submit

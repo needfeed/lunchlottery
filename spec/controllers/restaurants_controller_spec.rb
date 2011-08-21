@@ -2,16 +2,16 @@ require 'spec_helper'
 
 describe RestaurantsController do
 
-  it "should route properly" do
-    { :get => "/restaurants"}.should route_to({:controller => "restaurants", :action => "index"})
-  end
+  describe "#create" do
+    it "should be successful & redirect to people#index " do
+      location = Location.create!(:name => "location", :address => "100 Market St., San Francisco, CA")
+      post :create, :location_id => location.to_param, :restaurant => { :name => "Taco Mall", :address => "300 Market St., San Francisco, CA" }
 
-  describe "#index" do
-    it "should be successful & show a list of restaurants" do
-      restaurant = Restaurant.create(:name => "Basil", :address => "42 Folsom Street San Francisco, CA")
-      get :index
-      assigns[:restaurants] = [restaurant]
-      response.should be_success
+      created_restaurant = Restaurant.find_by_name("Taco Mall")
+      created_restaurant.should_not be_nil
+      location.restaurants.reload.should include(created_restaurant)
+
+      response.should redirect_to location_path(location)
     end
   end
 end
