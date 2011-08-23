@@ -26,7 +26,7 @@
 %h3 People at #{@location.name}
 %div#people_at_location
   - @people.each do |person|
-    %img{ :src => person.gravatar_url, :class => "gravatar" }
+    %img{ :src => person.gravatar_url, :class => "gravatar #{person.opt_in? ? 'in' : 'out' }" }
 
 
 %h3 Favorite Restaurants for #{@location.name}
