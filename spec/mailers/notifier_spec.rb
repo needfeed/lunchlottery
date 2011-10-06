@@ -51,7 +51,8 @@ describe Notifier do
     end
 
     it 'should show the stats about the groups' do
-      @message.body.to_s.gsub(/\s+/, ' ').should include "2 groups of 2 people and 1 group of 3 people"
+      @message.body.to_s.gsub(/\s+/, ' ').should include "2 groups of 2 people"
+      @message.body.to_s.gsub(/\s+/, ' ').should include "1 group of 3 people"
     end
   end
 end
