@@ -5,3 +5,10 @@
   %p
     = f.hidden_field :opt_in, :value => !@person.going?
     = f.submit "Actually, I #{!@person.going? ? "want to go" : "don't want to go"}"
+  
+%h3 People at #{@person.location.name} who've already opted-in
+%div#people_at_location
+  - @people.each do |person|
+    %img{ :src => person.gravatar_url, :class => "gravatar in" }
+
+  

@@ -30,7 +30,7 @@ class PeopleController < ApplicationController
     else
       flash[:error] = "I had a problem saving that."
     end
-
+    @people = Person.opted_in.where(:location_id => @person.location_id)
     render :edit
   end
   
