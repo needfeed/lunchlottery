@@ -22,3 +22,4 @@
 
 %p= @location.meeting_point
 
+%p= link_to "Stop sending me email", person_token_url(@person.authentication_token, :person => {:subscribed => false})
