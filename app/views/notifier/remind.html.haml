@@ -11,3 +11,6 @@
 
   %li
     <b>No, I'm busy and will be sad instead.</b>
+
+  %li
+    = link_to "Unsubscribe", person_token_url(@person.authentication_token, :person => {:subscribed => false})

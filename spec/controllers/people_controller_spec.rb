@@ -78,7 +78,7 @@ describe PeopleController do
   describe "#update" do
     let(:person) { create_person(:email => "foo@example.com") }
 
-    context "with a valid token, setting false" do
+    context "with a valid token, setting opt_in false" do
       before { get :update, :token => person.authentication_token, :person => { :opt_in => "false" } }
 
       it { assigns(:person).should be_present }
@@ -98,6 +98,17 @@ describe PeopleController do
       it "renders a button to go if the person is currently not going" do
         person.should_not be_opt_in
         response.should have_selector("input", :type => 'submit', :value => "Actually, I want to go")
+      end
+    end
+
+    context "with a valid token, setting subscribed to false" do
+      before do
+        person.should be_subscribed
+        get :update, :token => person.authentication_token, :person => { :subscribed => "false" }
+      end
+
+      it "sets the subscribed flag to false" do
+        person.reload.should_not be_subscribed
       end
     end
 
