@@ -2,32 +2,48 @@ require 'spec_helper'
 
 describe Lottery do
   describe ".send_invitations!" do
-    before do
-      @pivotal = Location.create!(:name => "pivotal", :address => "731 Market Street San Francisco, CA")
-      @pivotal_people = new_people(7, @pivotal, true)
-      @pivotal_people.first.opt_in = false
-      @pivotal_people.each(&:save!)
+    context "with groups" do
+      before do
+        @pivotal = Location.create!(:name => "pivotal", :address => "731 Market Street San Francisco, CA")
+        @pivotal_people = new_people(7, @pivotal, true)
+        @pivotal_people.first.opt_in = false
+        @pivotal_people.each(&:save!)
 
+        @storek = Location.create!(:name => "storek", :address => "149 9th Street San Francisco, CA")
+        @storek_people = new_people(3, @storek, true)
+        @storek_people.each(&:save!)
+
+        Lottery.send_invitations!
+      end
+
+      it "invites groups of opted-in people" do
+        (ActionMailer::Base.deliveries[0].to + ActionMailer::Base.deliveries[1].to).should =~ %w[
+          pivotal_2@example.com pivotal_3@example.com pivotal_4@example.com
+          pivotal_5@example.com pivotal_6@example.com pivotal_7@example.com
+        ]
+
+        ActionMailer::Base.deliveries[2].to.to_a.should =~ %w[
+          storek_1@example.com storek_2@example.com storek_3@example.com
+        ]
+      end
+
+      it "resets the opt-in flag" do
+        Person.opted_in.length.should == 0
+      end
+
+    end
+
+    it "does not send invites to those who have unsubscribed" do
       @storek = Location.create!(:name => "storek", :address => "149 9th Street San Francisco, CA")
-      @storek_people = new_people(3, @storek, true)
-      @storek_people.each(&:save!)
 
+      create_person(:email => "quuxNope@example.com", :subscribed => false, :opt_in => true, :location => @storek)
+      create_person(:email => "quux1@example.com", :subscribed => true, :opt_in => true, :location => @storek)
+      create_person(:email => "quux2@example.com", :subscribed => true, :opt_in => true, :location => @storek)
+      create_person(:email => "quux3@example.com", :subscribed => true, :opt_in => true, :location => @storek)
       Lottery.send_invitations!
-    end
-
-    it "invites groups of opted-in people" do
-      (ActionMailer::Base.deliveries[0].to + ActionMailer::Base.deliveries[1].to).should =~ %w[
-        pivotal_2@example.com pivotal_3@example.com pivotal_4@example.com
-        pivotal_5@example.com pivotal_6@example.com pivotal_7@example.com
-      ]
-      
-      ActionMailer::Base.deliveries[2].to.to_a.should =~ %w[
-        storek_1@example.com storek_2@example.com storek_3@example.com
-      ]
-    end
-
-    it "resets the opt-in flag" do
-      Person.opted_in.length.should == 0
+      group_mail_deliveries = ActionMailer::Base.deliveries
+      grouped_emails = group_mail_deliveries.map(&:to)
+      grouped_emails.flatten.should_not include("quuxNope@example.com")
     end
   end
   
@@ -48,6 +64,12 @@ describe Lottery do
     it "sends the reminder to everyone" do
       Lottery.send_reminders!
       Person.count.should == 2
+      ActionMailer::Base.deliveries.length.should == 2
+    end
+
+    it "does not send reminders to those who have unsubscribed" do
+      create_person(:email => "quux@example.com", :subscribed => false)
+      Lottery.send_reminders!
       ActionMailer::Base.deliveries.length.should == 2
     end
   end

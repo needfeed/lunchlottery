@@ -8,6 +8,7 @@ class Person < ActiveRecord::Base
   belongs_to :location
   
   scope :opted_in, where(:opt_in => true)
+  scope :subscribed, where(:subscribed => true)
 
   def self.find_by_authentication_token!(token)
     find_by_authentication_token(token) or raise "I couldn't find that token."
