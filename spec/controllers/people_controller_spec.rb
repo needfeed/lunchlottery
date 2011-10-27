@@ -82,6 +82,7 @@ describe PeopleController do
       before { get :update, :token => person.authentication_token, :person => { :opt_in => "false" } }
 
       it { assigns(:person).should be_present }
+      it { assigns(:changed_opt_in).should == true }
       it { response.should be_success }
       it { should render_template("people/edit") }
       it { flash[:notice].should match(/updated/) }
@@ -99,6 +100,10 @@ describe PeopleController do
         person.should_not be_opt_in
         response.should have_selector("input", :type => 'submit', :value => "Actually, I want to go")
       end
+
+      it "gives the message that the user is not going" do
+        response.body.should include "not going"
+      end
     end
 
     context "with a valid token, setting subscribed to false" do
@@ -109,6 +114,12 @@ describe PeopleController do
 
       it "sets the subscribed flag to false" do
         person.reload.should_not be_subscribed
+      end
+
+      it { assigns(:changed_subscription).should == true }
+
+      it "give the message that the user has unsubscribed" do
+        response.body.should include "unsubscribed"
       end
     end
 

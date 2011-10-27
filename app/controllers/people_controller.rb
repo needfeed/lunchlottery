@@ -31,6 +31,9 @@ class PeopleController < ApplicationController
       flash[:error] = "I had a problem saving that."
     end
 
+    @changed_opt_in = params[:person].has_key?(:opt_in)
+    @changed_subscription = params[:person].has_key?(:subscribed)
+
     render :edit
   end
   

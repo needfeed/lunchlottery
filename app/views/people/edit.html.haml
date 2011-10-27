@@ -1,7 +1,11 @@
 = form_for @person, :url => person_token_path(@person.authentication_token), :html => {:method => :get} do |f|
-  %p
-    <b>#{@person.email}</b> is #{@person.going? ? "going" : "not going"} this week.
+  - if @changed_opt_in
+    %p
+      <b>#{@person.email}</b> is #{@person.going? ? "going" : "not going"} this week.
 
-  %p
-    = f.hidden_field :opt_in, :value => !@person.going?
-    = f.submit "Actually, I #{!@person.going? ? "want to go" : "don't want to go"}"
+    %p
+      = f.hidden_field :opt_in, :value => !@person.going?
+      = f.submit "Actually, I #{!@person.going? ? "want to go" : "don't want to go"}"
+  - if @changed_subscription
+    %p
+      <b>#{@person.email}</b> is #{@person.subscribed ? "subscribed" : "unsubscribed"}.
