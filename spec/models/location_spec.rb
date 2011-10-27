@@ -21,6 +21,6 @@ describe Location do
     location.longitude.should be_nil
     location.save
     location.reload.latitude.should == 37.77572
-    location.reload.longitude.should == -122.413628
+    location.reload.longitude.should == -132.0841430
   end
 end
