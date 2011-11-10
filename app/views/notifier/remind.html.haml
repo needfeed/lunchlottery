@@ -5,12 +5,12 @@
 %ul
   %li
     <b>Yes!</b>
-    Click
-    = link_to "here", person_token_url(@person.authentication_token, :person => {:opt_in => true})
-    to opt in for this week's lunch.
+    = link_to "I would like to go to lunch this week!", person_token_url(@person.authentication_token, :person => {:opt_in => true})
 
   %li
-    <b>No, I'm busy and will be sad instead.</b>
+    <b>No, thanks.</b>
+    I'm busy this week.
 
   %li
-    = link_to "Stop sending me email", person_token_url(@person.authentication_token, :person => {:subscribed => false})
+    <b>No, thanks.</b>
+    = link_to "I would like to stop receiving these emails.", person_token_url(@person.authentication_token, :person => {:subscribed => false})
