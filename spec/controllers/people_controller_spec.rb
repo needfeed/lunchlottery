@@ -125,12 +125,25 @@ describe PeopleController do
 
     context "when the person is currently going" do
       before do
+        person_two = create_person(:email => "bar@example.com", :location => person.location, :opt_in => "true")
+        person_three = create_person(:email => "baz@example.com", :location => person.location, :opt_in => "false")
+        person_four = create_person(:email => "joe@example.com", :location => Location.new(:name => "test_two", :address => "123 9th Street Boise, ID"))   
         get :update, :token => person.authentication_token, :person => { :opt_in => "true" }
       end
+      
       it "should renders a button to not go" do
         person.reload.should be_opt_in
         response.should have_selector("input", :type => 'submit', :value => "Actually, I don't want to go")
       end
+      
+      it "should render ALL of the people that have opted-in" do
+        assigns(:people).map(&:email).should =~ ["foo@example.com", "bar@example.com"]
+      end
+      
+      it "should render the actual gravatars of people opted-in" do
+        Nokogiri::HTML(response.body).css("img.gravatar").map { |node| node.attr("src") }.should =~ assigns(:people).map(&:gravatar_url)
+      end
+      
     end
 
     context "with an invalid token" do

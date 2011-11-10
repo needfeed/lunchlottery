@@ -9,3 +9,8 @@
   - if @changed_subscription
     %p
       <b>#{@person.email}</b> is #{@person.subscribed ? "subscribed" : "unsubscribed"}.
+
+%h3 People at #{@person.location.name} who've already opted-in
+%div#people_at_location
+  - @people.each do |person|
+    %img{ :src => person.gravatar_url, :class => "gravatar in" }

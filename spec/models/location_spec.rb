@@ -20,7 +20,8 @@ describe Location do
     location.latitude.should be_nil
     location.longitude.should be_nil
     location.save
-    location.reload.latitude.should == 37.77572
-    location.reload.longitude.should == -132.0841430
+    location.reload.latitude.should be_within(0.001).of(37.77572)
+    location.reload.longitude.should be_within(0.001).of(-132.0841430)
+
   end
 end

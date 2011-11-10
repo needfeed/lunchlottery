@@ -56,6 +56,16 @@ li {
     margin: 0 auto;
 }
 
+.in {
+  border: 2px solid green;
+  padding: 1px;
+}
+
+.out {
+  border: 2px solid gray;
+  padding: 1px;
+}
+
 small {
   font-size: 11px;
 }
