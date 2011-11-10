@@ -27,6 +27,11 @@
 %div#people_at_location
   - @people.each do |person|
     %img{ :src => person.gravatar_url, :class => "gravatar" }
+%div
+  %small
+    Sign up with
+    %a{:href=>"http://en.gravatar.com/site/signup/"} gravatar
+    to set up your profile picture if you haven't already.
 
 
 %h3 Favorite Restaurants for #{@location.name}
