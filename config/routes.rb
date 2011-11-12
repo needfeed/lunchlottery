@@ -10,6 +10,6 @@ LunchLottery::Application.routes.draw do
   get ":location" => "people#index", :as => :location
   post "people" => "people#create"
 
-  match ':controller(/:action(/:id(.:format)))'
+  match ':controller(/:action(/:id(.:format)))' # TODO:KILL ME
 
 end

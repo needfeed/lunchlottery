@@ -27,6 +27,20 @@ describe PeopleController do
       get :index, :location => "mylocation"
       Nokogiri::HTML(response.body).css("img.gravatar").map { |node| node.attr("src") }.should =~ people.map(&:gravatar_url)
     end
+
+    it "should show people who are opted in above others" do
+      location = Location.create!(:name => "mylocation", :address => "149 9th Street San Francisco, CA")
+      opted_in_person = create_person(:email => "in@example.com", :opt_in_datetime => DateTime.parse("9999-11-11 11:11:11 UTC"), :location => location)
+      non_opted_in_person = create_person(:email => "not_in@example.com", :opt_in_datetime => nil, :location => location)
+
+      get :index, :location => "mylocation"
+
+      assigns(:opted_in_people).map(&:gravatar_url).should == [opted_in_person.gravatar_url]
+      assigns(:non_opted_in_people).map(&:gravatar_url).should == [non_opted_in_person.gravatar_url]
+
+      Nokogiri::HTML(response.body).css(".opted_in img.gravatar").map { |node| node.attr("src") }.should =~ [opted_in_person.gravatar_url]
+      Nokogiri::HTML(response.body).css(".non_opted_in img.gravatar").map { |node| node.attr("src") }.should =~ [non_opted_in_person.gravatar_url]
+    end
   end
 
   describe "#welcome" do
@@ -132,7 +146,7 @@ describe PeopleController do
         get :update, :token => person.authentication_token, :person => { :opt_in_datetime => future }
       end
       
-      it "should renders a button to not go" do
+      it "should render a button to not go" do
         person.reload.should be_going
         response.should have_selector("input", :type => 'submit', :value => "Actually, I don't want to go")
       end
@@ -144,7 +158,7 @@ describe PeopleController do
       it "should render the actual gravatars of people opted-in" do
         Nokogiri::HTML(response.body).css("img.gravatar").map { |node| node.attr("src") }.should =~ assigns(:people).map(&:gravatar_url)
       end
-      
+
     end
 
     context "with an invalid token" do

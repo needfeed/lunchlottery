@@ -24,14 +24,19 @@
 
 
 %h3 People at #{@location.name}
-%div#people_at_location
-  - @people.each do |person|
-    %img{ :src => person.gravatar_url, :class => "gravatar #{person.going? ? 'in' : 'out' }" }
+.opted_in
+  %h4 People who are going
+  - @opted_in_people.each do |person|
+    %img{ :src => person.gravatar_url, :class => "gravatar in" }
+.non_opted_in
+  %h4 People who are not (yet) going
+  - @non_opted_in_people.each do |person|
+    %img{ :src => person.gravatar_url, :class => "gravatar out" }
 %div
   %small
-    Sign up with
-    %a{:href=>"http://en.gravatar.com/site/signup/"} gravatar
-    to set up your profile picture if you haven't already.
+    If your profile picture doesn't show up here, sign up with
+    = succeed "." do
+      %a{:href=>"http://en.gravatar.com/site/signup/"} gravatar
 
 %h3 Favorite Restaurants for #{@location.name}
 
