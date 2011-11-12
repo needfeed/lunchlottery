@@ -78,17 +78,17 @@ describe PeopleController do
   describe "#update" do
     let(:person) { create_person(:email => "foo@example.com") }
 
-    context "with a valid token, setting opt_in false" do
-      before { get :update, :token => person.authentication_token, :person => { :opt_in => "false" } }
+    context "with a valid token, setting opt_in_datetime false" do
+      before { get :update, :token => person.authentication_token, :person => { :opt_in_datetime => "false" } }
 
       it { assigns(:person).should be_present }
-      it { assigns(:changed_opt_in).should == true }
+      it { assigns(:changed_opt_in_datetime).should == true }
       it { response.should be_success }
       it { should render_template("people/edit") }
       it { flash[:notice].should match(/updated/) }
 
       it "persists the opt in param" do
-        Person.find_by_id(person.id).should_not be_opt_in
+        Person.find_by_id(person.id).should_not be_opt_in_datetime
       end
 
       it "renders a form for further updating update" do
@@ -97,7 +97,7 @@ describe PeopleController do
       end
 
       it "renders a button to go if the person is currently not going" do
-        person.should_not be_opt_in
+        person.should_not be_opt_in_datetime
         response.should have_selector("input", :type => 'submit', :value => "Actually, I want to go")
       end
 
@@ -125,14 +125,15 @@ describe PeopleController do
 
     context "when the person is currently going" do
       before do
-        person_two = create_person(:email => "bar@example.com", :location => person.location, :opt_in => "true")
-        person_three = create_person(:email => "baz@example.com", :location => person.location, :opt_in => "false")
-        person_four = create_person(:email => "joe@example.com", :location => Location.new(:name => "test_two", :address => "123 9th Street Boise, ID"))   
-        get :update, :token => person.authentication_token, :person => { :opt_in => "true" }
+        future = DateTime.parse("9 Nov 2100 23:59")
+        person_two = create_person(:email => "bar@example.com", :location => person.location, :opt_in_datetime => future)
+        person_three = create_person(:email => "baz@example.com", :location => person.location, :opt_in_datetime => nil)
+        person_four = create_person(:email => "joe@example.com", :location => Location.new(:name => "test_two", :address => "123 9th Street Boise, ID"))
+        get :update, :token => person.authentication_token, :person => { :opt_in_datetime => future }
       end
       
       it "should renders a button to not go" do
-        person.reload.should be_opt_in
+        person.reload.should be_going
         response.should have_selector("input", :type => 'submit', :value => "Actually, I don't want to go")
       end
       

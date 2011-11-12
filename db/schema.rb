@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111027212735) do
+ActiveRecord::Schema.define(:version => 20111111215302) do
 
   create_table "location_restaurants", :force => true do |t|
     t.integer  "location_id"
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(:version => 20111027212735) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "authentication_token"
-    t.boolean  "opt_in",               :default => false, :null => false
     t.integer  "location_id"
     t.boolean  "subscribed",           :default => true
+    t.datetime "opt_in_datetime"
   end
 
   create_table "restaurants", :force => true do |t|

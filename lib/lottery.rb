@@ -11,8 +11,6 @@ module Lottery
         end
       end
     end
-
-    Person.update_all :opt_in => false
   end
 
   def self.send_reminders!

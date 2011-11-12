@@ -5,7 +5,7 @@
 %ul
   %li
     <b>Yes!</b>
-    = link_to "I would like to go to lunch this week!", person_token_url(@person.authentication_token, :person => {:opt_in => true})
+    = link_to "I would like to go to lunch this week!", person_token_url(@person.authentication_token, :person => {:opt_in_datetime => Dates.next_tuesday})
 
   %li
     <b>No, thanks.</b>

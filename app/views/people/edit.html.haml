@@ -1,11 +1,15 @@
 = form_for @person, :url => person_token_path(@person.authentication_token), :html => {:method => :get} do |f|
-  - if @changed_opt_in
+  - if @changed_opt_in_datetime
     %p
       <b>#{@person.email}</b> is #{@person.going? ? "going" : "not going"} this week.
 
     %p
-      = f.hidden_field :opt_in, :value => !@person.going?
-      = f.submit "Actually, I #{!@person.going? ? "want to go" : "don't want to go"}"
+      - if @person.going?
+        = f.hidden_field :opt_in_datetime, :value => nil
+        = f.submit "Actually, I don't want to go"
+      - else
+        = f.hidden_field :opt_in_datetime, :value => Dates.next_tuesday
+        = f.submit "Actually, I want to go"
   - if @changed_subscription
     %p
       <b>#{@person.email}</b> is #{@person.subscribed ? "subscribed" : "unsubscribed"}.

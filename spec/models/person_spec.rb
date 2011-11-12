@@ -65,5 +65,36 @@ describe Person do
     end
   end
 
+  describe "opting in" do
+    attr_reader :person
+    before do
+      location = Location.create!(:name => "pivotal", :address => "731 Market Street San Francisco, CA")
+      @person = create_person(:email => "asdf@example.com", :location => location)
+    end
+
+    context "has never opted in" do
+      it "does not show up in the named scope" do
+        person.update_attribute(:opt_in_datetime, nil)
+        Person.opted_in.should_not include(person)
+        person.reload.should_not be_going
+      end
+    end
+
+    context "has opted in, but the opt-in expired" do
+      it "does not show up in the named scope" do
+        person.update_attribute(:opt_in_datetime, "1999-12-22 23:59")
+        Person.opted_in.should_not include(person)
+        person.reload.should_not be_going
+      end
+    end
+
+    context "has opted in for the next lunch" do
+      it "does show up in the named scope" do
+        person.update_attribute(:opt_in_datetime, "9999-12-22 23:59")
+        Person.opted_in.should include(person)
+        person.reload.should be_going
+      end
+    end
+  end
 
 end
