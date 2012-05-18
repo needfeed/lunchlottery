@@ -17,5 +17,6 @@ group :development, :test do
   gem 'taps'
   gem 'spork'
   gem 'shoulda'
+  gem 'annotate'
 end
 

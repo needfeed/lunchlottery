@@ -3,22 +3,23 @@ require 'spec_helper'
 describe Notifier do
   describe ".remind" do
     before do
-      Timecop.freeze(DateTime.parse("2011-11-11 11:11:11 UTC")) do
+      Timecop.freeze(DateTime.parse("2011-11-12 11:11:11 UTC")) do
         @person = create_person(:email => "foo@example.com")
         Notifier.remind(@person).deliver
       end
-      @tuesday = DateTime.parse("2011-11-15 23:59:59 UTC")
+      @lunchday = DateTime.parse("2011-11-18 23:59:59 UTC")
     end
 
     it "sends the remind email" do
       ActionMailer::Base.deliveries.length.should == 1
 
       message = ActionMailer::Base.deliveries.first
-      message.subject.should =~ /Lunch on Tuesday\?/
+      message.subject.should =~ /Lunch on #{@person.location.weekday}\?/
       message.to.should == [@person.email]
       message.from.should == ["dine@lunchlottery.com"]
       message.body.to_s.should match /Hello/
-      message.body.to_s.should include person_token_url(@person.authentication_token, :person => {:opt_in_datetime => @tuesday})
+      message.body.to_s.should match @person.location.weekday
+      message.body.to_s.should include person_token_url(@person.authentication_token, :person => {:opt_in_datetime => @lunchday})
       message.body.to_s.should match /http:\/\/lunchlottery\.com\/people/
     end
   end

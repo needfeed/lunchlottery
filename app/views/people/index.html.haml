@@ -2,7 +2,7 @@
 
 %p
   <b>#{Linguistics::EN.numwords(@people_count).titlecase} people</b>
-  are going to lunch in random groups of 4 <b>every Tuesday.</b>
+  are going to lunch in random groups of 4 <b>every #{@location.weekday}.</b>
 
 - unless @person.errors.empty?
   %p.errors
@@ -13,7 +13,7 @@
     = flash[:message]
 
 - if @person.errors.empty? && !flash[:message]
-  %p Sign up below! We'll pick your lunch mates and email you on Monday night.
+  %p Sign up below! We'll pick your lunch mates and email you on #{Dates.day_before(@location.weekday)} night.
 
 = form_for @person do |f|
   = f.label :email, "Email:"

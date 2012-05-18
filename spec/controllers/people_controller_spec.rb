@@ -41,6 +41,13 @@ describe PeopleController do
       Nokogiri::HTML(response.body).css(".opted_in img.gravatar").map { |node| node.attr("src") }.should =~ [opted_in_person.gravatar_url]
       Nokogiri::HTML(response.body).css(".non_opted_in img.gravatar").map { |node| node.attr("src") }.should =~ [non_opted_in_person.gravatar_url]
     end
+
+    it "should mention the weekday" do
+      Location.create!(:name => "mylocation", :address => "149 9th Street San Francisco, CA", :weekday => "Sunday")
+      get :index, :location => "mylocation"
+      response.body.should include "every Sunday"
+      response.body.should include "Saturday night"
+    end
   end
 
   describe "#welcome" do

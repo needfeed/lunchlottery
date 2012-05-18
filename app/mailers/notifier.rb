@@ -13,7 +13,7 @@ class Notifier < ActionMailer::Base
   def remind(person)
     @person = person
     mail(:to => @person.email,
-      :subject => "Lunch on Tuesday?",
+      :subject => "Lunch on #{@person.location.weekday}?",
       :from => "dine@lunchlottery.com")
   end
 

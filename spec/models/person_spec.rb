@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: people
+#
+#  id                   :integer         not null, primary key
+#  email                :string(255)
+#  created_at           :datetime
+#  updated_at           :datetime
+#  authentication_token :string(255)
+#  location_id          :integer
+#  subscribed           :boolean         default(TRUE)
+#  opt_in_datetime      :datetime
+#
+
 require 'spec_helper'
 
 describe Person do
@@ -98,3 +112,4 @@ describe Person do
   end
 
 end
+

@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: locations
+#
+#  id            :integer         not null, primary key
+#  name          :string(255)
+#  meeting_point :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  address       :string(255)
+#  longitude     :float
+#  latitude      :float
+#  weekday       :string(255)
+#
+
 require 'spec_helper'
 
 describe Location do
@@ -25,3 +40,4 @@ describe Location do
 
   end
 end
+
